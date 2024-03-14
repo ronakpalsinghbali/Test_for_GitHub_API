@@ -1,0 +1,25 @@
+name: Using Reusable Workflows
+
+on:
+    workflow_dispatch:
+
+jobs:
+    job1:
+        name: Checkout and Print text
+        runs-on: ubuntu-latest
+
+        steps:
+         - name: Checkout
+           uses: actions/checkout@v4
+         - name: Printing Text
+           run: echo Hello There, I am using Reusable wrokflows
+
+    job2:
+        name: Build and push image
+        uses: ronakpalsinghbali/ReusableWorkflowRonak/.github/workflows/buildandpush.yaml@main
+        with:
+            image_name : reusable_workflow_example
+            tag: 1.0
+        secrets:
+            registry_username: ${{secrets.REGISTRY_USERNAME}}
+            registry_password: ${{secrets.REGISTRY_PASSWORD}}
