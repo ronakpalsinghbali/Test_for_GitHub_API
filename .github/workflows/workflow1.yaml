@@ -12,6 +12,7 @@ on:
         required: true
         type: number
 
+
 jobs:
   job1:
     name: Build and Push Docker Image
@@ -34,7 +35,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{secrets.REGISTRY_USERNAME}}/${{secrets.IMAGE_NAME}}:1.0
+          tags: ${{secrets.REGISTRY_USERNAME}}/${{vars.IMAGE_NAME_VAR}}:1.0
 
   job2:
     name: Print name
