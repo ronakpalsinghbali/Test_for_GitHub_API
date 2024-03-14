@@ -1,7 +1,16 @@
 name: "Building and Pushing Docker Image"
 
 on:
-  workflow_dispatch:  
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Name"
+        required: true
+        type: string
+      age:
+        description: "Age"
+        required: true
+        type: number
 
 jobs:
   job1:
@@ -31,4 +40,4 @@ jobs:
     name: Print name
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Hello my name is Ronak"
+    - run: echo "Hello my name is ${{inputs.name}} and my age is ${{inputs.age}} "
