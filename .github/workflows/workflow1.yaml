@@ -2,14 +2,6 @@ name: "Building and Pushing Docker Image"
 
 on:
   workflow_dispatch:  
-    secrets:
-      REGISTRY_USERNAME:
-        description: "Username of Docker"
-        required: true
-      REGISTRY_PASSWORD: 
-        description: "Password for Docker"
-        required: true
-
 
 jobs:
   job1:
