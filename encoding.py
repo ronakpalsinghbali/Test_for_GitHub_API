@@ -1,25 +1,13 @@
-from nacl.public import Box, PrivateKey, PublicKey
-import nacl.encoding
-import nacl.utils
 
-# Replace PUBLIC_KEY and SECRET_VALUE with the values obtained from the GitHub API
-public_key_str = 'nyQhEgz25eW2kzkqnmpL/58xJtkZgiCCVRg46WpYLkg='
-secret_value = 'encoded'
+from base64 import b64encode
+from nacl import encoding, public
 
-# Decode the base64-encoded public key
-public_key = PublicKey(public_key_str, encoder=nacl.encoding.Base64Encoder)
+def encrypt(public_key: str, secret_value: str) -> str:
+  """Encrypt a Unicode string using the public key."""
+  public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
+  sealed_box = public.SealedBox(public_key)
+  encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
+  return b64encode(encrypted).decode("utf-8")
 
-# Generate a new randomly generated private key
-private_key = PrivateKey.generate()
-
-# Get the corresponding public key
-public_key_from_private = private_key.public_key
-
-# Create a Box using the public key obtained from the private key and the GitHub's public key
-box = Box(private_key, public_key)
-
-# Encrypt the secret value using the Box
-encrypted_value = box.encrypt(secret_value.encode(), encoder=nacl.encoding.Base64Encoder)
-
-# Print the encrypted value
-print("Encrypted value:", encrypted_value.ciphertext.decode())
+encrypted_value = encrypt("nyQhEgz25eW2kzkqnmpL/58xJtkZgiCCVRg46WpYLkg=", "palronaq")
+print("Encrypted value:", encrypted_value)
