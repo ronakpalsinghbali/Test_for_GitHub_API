@@ -1,4 +1,3 @@
-
 from base64 import b64encode
 from nacl import encoding, public
 
@@ -9,5 +8,5 @@ def encrypt(public_key: str, secret_value: str) -> str:
   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
   return b64encode(encrypted).decode("utf-8")
 
-encrypted_value = encrypt("nyQhEgz25eW2kzkqnmpL/58xJtkZgiCCVRg46WpYLkg=", "palronaq")
+encrypted_value = encrypt("nyQhEgz25eW2kzkqnmpL/58xJtkZgiCCVRg46WpYLkg=", "sectervalue1")
 print("Encrypted value:", encrypted_value)
