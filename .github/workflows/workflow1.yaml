@@ -35,10 +35,10 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{secrets.REGISTRY_USERNAME}}/${{vars.IMAGE_NAME_VAR}}:1.0
+          tags: ${{secrets.REGISTRY_USERNAME}}/${{secrets.IMAGE_NAME}}:1.0
 
   job2:
     name: Print name
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Hello my name is ${{inputs.name}} and my age is ${{inputs.age}} "
+    - run: echo "Hello my name is ${{inputs.name}} and my age is ${{inputs.age}} and i just pushed the image with name ${{vars.IMAGE_NAME_VAR}} "
