@@ -11,8 +11,8 @@ on:
                 required: true
                 type: string
 
-env:
-    TEST_VAR_GITHUB_API: val-wf
+# env:
+#     TEST_VAR_GITHUB_API: val-wf
 
 
 
