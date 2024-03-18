@@ -11,8 +11,8 @@ on:
                 required: true
                 type: string
 
-# env:
-#     TEST_VAR_GITHUB_API: val-wf
+env:
+    TEST_VAR_GITHUB_API: val-wf
 
 
 
@@ -23,5 +23,6 @@ jobs:
         steps:
             - name: Print ENVs
               run: |
+                echo "${{vars.TEST_VAR_GITHUB_API}}"
                 echo "$TEST_VAR_GITHUB_API"
                 echo "Hello, my name is ${{inputs.name}} and my company is ${{inputs.company}}"
