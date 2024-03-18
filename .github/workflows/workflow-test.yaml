@@ -12,7 +12,7 @@ on:
                 type: string
 
 env:
-    TEST_VAR_GITHUB_API: GithubAPITEST
+    TEST_VAR_GITHUB_API: val-wf
 
 
 
