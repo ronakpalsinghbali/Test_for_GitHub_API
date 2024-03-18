@@ -20,6 +20,7 @@ jobs:
     job1:
         name: Check for env update
         runs-on: ubuntu-latest
+        environment: DEV
         steps:
             - name: Print ENVs
               run: |
