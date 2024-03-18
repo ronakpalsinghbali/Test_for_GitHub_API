@@ -12,23 +12,8 @@ on:
                 type: string
 
 env:
-    TEST_REGION: region-name
-    TEST_AWS_ACCOUNT_NO: aws-account-id
-    TEST_STATEMENT_ID: statement-id
-    TEST_LAMBDA_START: lambda-start
-    TEST_LAMBDA_STOP: lambda-stop
+    TEST_VAR_GITHUB_API: GithubAPITEST
 
-    TEST_TF_STATE_BUCKET: tf-state-bucket
-    TEST_TF_VAR_STATE_FILE: tf-var-state-file
-    TEST_TF_STATELOCK_TABLE: tf-statelock-dev
-
-    TEST_SONAR_PROJECT_KEY: sonar-project-key
-    TEST_SONAR_PROJECT_NAME: sonar-project-name
-
-    TEST_ENV_DB_USERNAME_LAMBDA: env-db-username-labmda
-    TEST_ENV_DB_PASSWORD_LAMBDA: env-db-password=lambda
-    TEST_ENV_ACCESS_KEY_ID_LAMBDA: env-access-key-id-lambda
-    TEST_ENV_SECRET_ACCESS_KEY_LAMBDA: env-secret-access-key-lambda
 
 
 jobs:
@@ -38,4 +23,5 @@ jobs:
         steps:
             - name: Print ENVs
               run: |
-                echo "$TEST_REGION"
+                echo "$TEST_VAR_GITHUB_API"
+                echo "Hello, my name is ${{inputs.name}} and my company is ${{inputs.company}}"
