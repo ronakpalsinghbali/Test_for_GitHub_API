@@ -30,7 +30,7 @@ jobs:
 # Printing Variables Values.
     Checking-for-Variables-Values:
         runs-on: ubuntu-latest
-        environment: DEV
+        environment: PROD
         steps:
         - name: Print Variables Values
           run: |
