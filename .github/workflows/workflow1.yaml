@@ -23,14 +23,14 @@ name : GitHub_API_TEST
 on:
   workflow_dispatch:
 
-env:
-    ENV_NAME: DEV
+# env:
+#     ENV_NAME: DEV
 
 jobs:
 # Printing Variables Values.
     Checking-for-Variables-Values1:
         runs-on: ubuntu-latest
-        environment: ${{ env.ENV_NAME}}
+        environment: DEV
         steps:
         - name: Print Variables Values
           run: |
