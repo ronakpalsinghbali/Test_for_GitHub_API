@@ -36,7 +36,7 @@ jobs:
         - name: Print Variables Values
           run: |
             echo "ENV VAR- ${{vars.TEST_VAR_GITHUB_API}}"
-            echo "REPO VAR- ${{vars.REPO_VAR_GITHUB_API}}"
+            
 
 
     # # Printing Variables Values.
