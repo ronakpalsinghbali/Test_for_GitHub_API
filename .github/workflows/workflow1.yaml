@@ -31,11 +31,16 @@ jobs:
 # Printing Variables Values.
     Checking-for-Variables-Values1:
         runs-on: ubuntu-latest
-        environment: DEV
+        strategy:
+          matrix:
+            environment:
+              - DEV
+              - PROD
         steps:
         - name: Print Variables Values
           run: |
-            echo "ENV VAR- ${{vars.TEST_VAR_GITHUB_API}}"
+            echo "DEV ENV VAR- ${{vars.TEST_VAR_GITHUB_API_DEV}}"
+            echo "PROD ENV VAR- ${{vars.TEST_VAR_GITHUB_API_PROD}}"
             
 
 
