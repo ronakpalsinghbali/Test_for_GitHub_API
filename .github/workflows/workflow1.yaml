@@ -39,8 +39,8 @@ jobs:
         steps:
         - name: Print Variables Values
           run: |
-            echo "DEV ENV VAR- ${{vars.TEST_VAR_GITHUB_API_DEV}}"
-            echo "PROD ENV VAR- ${{vars.TEST_VAR_GITHUB_API_PROD}}"
+            echo "DEV ENV VAR- $TEST_VAR_GITHUB_API_DEV"
+            echo "PROD ENV VAR- $TEST_VAR_GITHUB_API_PROD"
             
 
 
