@@ -36,17 +36,6 @@ jobs:
             echo "ENV VAR- ${{vars.TEST_VAR_GITHUB_API}}"
             
 
-
-    # # Printing Variables Values.
-    # Checking-for-Variables-Values2:
-    #     runs-on: ubuntu-latest
-    #     environment: PROD
-    #     steps:
-    #     - name: Print Variables Values
-    #       run: |
-    #         echo "${{vars.ENV_TEST_REGION}},${{vars.ENV_TEST_AWS_ACCOUNT_NO}},${{vars.ENV_TEST_STATEMENT_ID}},${{vars.ENV_TEST_LAMBDA_START}},${{vars.ENV_TEST_LAMBDA_STOP}},${{vars.ENV_TEST_TF_STATE_BUCKET}}.${{vars.ENV_TEST_TF_VAR_STATE_FILE}}.${{vars.ENV_TEST_TF_STATELOCK_TABLE}}.${{vars.ENV_TEST_SONAR_PROJECT_KEY}}.${{vars.ENV_TEST_SONAR_PROJECT_NAME}}"
-
-
 # #Job to scan the code using sonarqube.
 #     SonarqubeScanning-Build-and-zipping:
 #         runs-on: ubuntu-latest
