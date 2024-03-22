@@ -24,8 +24,6 @@ name : GitHub_API_TEST
 on:
   workflow_dispatch:
 
-# env:
-#     ENV_NAME: DEV
 
 jobs:
 # Printing Variables Values.
