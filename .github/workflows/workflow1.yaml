@@ -33,7 +33,7 @@ jobs:
         steps:
         - name: Print Variables Values
           run: |
-            echo "ENV VAR- ${{vars.TEST_VAR_GITHUB_API}}"
+            echo "ENV VAR-- ${{vars.TEST_VAR_GITHUB_API}}"
             
 
 # #Job to scan the code using sonarqube.
