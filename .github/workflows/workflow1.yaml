@@ -23,151 +23,22 @@
 name : GitHub_API_TEST
 on:
   workflow_dispatch:
-
-# env:
-#     ENV_NAME: DEV
+    inputs:
+      REGION_DEV:
+        description: Region name
+        required: true
+      
+      ACCOUNT_NO_DEV:
+        description: Account Number
+        required: true
 
 jobs:
 # Printing Variables Values.
     Checking-for-Variables-Values1:
         runs-on: ubuntu-latest
-        strategy:
-          matrix:
-            environment:
-              - DEV
-              - PROD
+        environment: DEV
         steps:
         - name: Print Variables Values
           run: |
-            echo "DEV ENV VAR- $TEST_VAR_GITHUB_API_DEV"
-            echo "PROD ENV VAR- $TEST_VAR_GITHUB_API_PROD"
-            
-
-
-    # # Printing Variables Values.
-    # Checking-for-Variables-Values2:
-    #     runs-on: ubuntu-latest
-    #     environment: PROD
-    #     steps:
-    #     - name: Print Variables Values
-    #       run: |
-    #         echo "${{vars.ENV_TEST_REGION}},${{vars.ENV_TEST_AWS_ACCOUNT_NO}},${{vars.ENV_TEST_STATEMENT_ID}},${{vars.ENV_TEST_LAMBDA_START}},${{vars.ENV_TEST_LAMBDA_STOP}},${{vars.ENV_TEST_TF_STATE_BUCKET}}.${{vars.ENV_TEST_TF_VAR_STATE_FILE}}.${{vars.ENV_TEST_TF_STATELOCK_TABLE}}.${{vars.ENV_TEST_SONAR_PROJECT_KEY}}.${{vars.ENV_TEST_SONAR_PROJECT_NAME}}"
-
-
-# #Job to scan the code using sonarqube.
-#     SonarqubeScanning-Build-and-zipping:
-#         runs-on: ubuntu-latest
-#         steps:
-#         - name: Repo checkout
-#           uses: actions/checkout@master
-#           with:
-#             repository: cloudeq-EMU-ORG/rennaisance-aws
-#             path: .
-#             ref: development
-#             token: ${{secrets.TOKEN_RENAISSANCE_GITHUB}}
-
-# # Below step run when branch is development
-#         - name: Calling composite action of renaissance-aws repo
-#           uses: cloudeq-EMU-ORG/rennaisance-aws@development
-#           with:
-#             CEQ_REN_SONAR_TOKEN: ${{ secrets.CEQ_REN_SONAR_TOKEN }}
-#             CEQ_SONAR_URL: ${{ secrets.CEQ_SONAR_URL }}
-#             SONAR_PROJECT_KEY: ${{ vars.TEST_SONAR_PROJECT_KEY }}
-#             SONAR_PROJECT_NAME: ${{ vars.TEST_SONAR_PROJECT_NAME }}
-
-#     Infra-Deployment:
-#         runs-on: ubuntu-latest
-
-#         needs: SonarqubeScanning-Build-and-zipping
-#         steps:
-
-#         - uses: actions/checkout@v3
-        
-#         - name: Download zip file from previous job
-#           uses: actions/download-artifact@v3
-#           with:
-#             name: schedule-zip
-
-#         - name: Installing terraform
-#           uses: hashicorp/setup-terraform@v2
-#           with:
-#             terraform_version: 1.1.0
-#             terraform_wrapper: false
-
-#         - name: Terraform Scan Install
-#           run: curl --location https://github.com/accurics/terrascan/releases/download/v1.9.0/terrascan_1.9.0_Linux_x86_64.tar.gz --output terrascan.tar.gz && tar -xf terrascan.tar.gz terrascan && rm terrascan.tar.gz && install terrascan /usr/local/bin && rm terrascan && terrascan
-
-#     # AWS configure for each env 
-#         - name: Configure AWS Credentials(DEV ENV)
-#           uses: aws-actions/configure-aws-credentials@v1
-#           with:
-#             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-#             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#             aws-region: ${{ vars.TEST_REGION }}
-    
-#     # Creating s3 bucket for storing the terraform state file.
-#         - name: Setup Remote state DEV
-#           run: |
-#             aws --version
-#             chmod +x s3-remote-state.sh
-#             ./s3-remote-state.sh ${{vars.TEST_TF_STATE_BUCKET}} ${{vars.TEST_TF_STATELOCK_TABLE}} $REGION
-
-#         - name: Git config
-#           run: git config --global url."https://oauth2:${{secrets.TOKEN_RENAISSANCE_GITHUB}}@github.com".insteadOf https://github.com
-
-#     # Terraform init for individual environment
-#         - name: Terraform init for DEV
-#           run: |
-#             terraform init -reconfigure -backend-config="bucket=${{vars.TEST_TF_STATE_BUCKET}}" -backend-config="key=${{ vars.TEST_TF_VAR_STATE_FILE }}" -backend-config="dynamodb_table=${{vars.TEST_TF_STATELOCK_TABLE}}" -backend-config="encrypt=true"
-        
-#         - name: Terraform validate
-#           id: validate
-#           run: terraform validate 
-
-#         - name: Terraform Plan for dev
-#           id: plan-dev
-#           run: |
-#             terraform plan -lock=false \
-#             -var-file="./tfvar-files/dev.tfvars" \
-#             -var="env_access_key_id=${{ env.ENV_ACCESS_KEY_ID_LAMBDA }}" \
-#             -var="env_secret_access_key=${{ env.ENV_SECRET_ACCESS_KEY_LAMBDA }}" \
-#             -var="username=${{ env.ENV_DB_USERNAME_LAMBDA }}" \
-#             -var="password=${{ env.ENV_DB_PASSWORD_LAMBDA }}"
-
-#         - name: Terraform apply for dev environment
-#           id: apply-dev
-#           run: |
-#             terraform apply -auto-approve -lock=false \
-#             -var-file="./tfvar-files/dev.tfvars" \
-#             -var="env_access_key_id=${{ env.ENV_ACCESS_KEY_ID_LAMBDA }}" \
-#             -var="env_secret_access_key=${{ env.ENV_SECRET_ACCESS_KEY_LAMBDA }}" \
-#             -var="username=${{ env.ENV_DB_USERNAME_LAMBDA }}" \
-#             -var="password=${{ env.ENV_DB_PASSWORD_LAMBDA }}"
-
-#     Attach-lambda-permission:
-#         runs-on: ubuntu-latest
-#         needs: Infra-Deployment
-#         steps:
-#         - name: Configure AWS Credentials(DEV ENV)
-#           uses: aws-actions/configure-aws-credentials@v1
-#           with:
-#             aws-access-key-id:      ${{ secrets.AWS_ACCESS_KEY }}
-#             aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#             aws-region: ${{ vars.TEST_REGION }}
-
-#         - name: Attach lambda permissions(DEV Env)
-#           continue-on-error: true
-#           run: |
-#             aws lambda add-permission \
-#             --function-name ${{ vars.TEST_LAMBDA_START }} \
-#             --statement-id ${{ vars.TEST_STATEMENT_ID }} \
-#             --action 'lambda:InvokeFunction' \
-#             --principal events.amazonaws.com \
-#             --source-arn arn:aws:events:${{ vars.TEST_REGION }}:${{ vars.TEST_AWS_ACCOUNT_NO }}:rule/StopRenaissance_*
-
-#             aws lambda add-permission \
-#             --function-name ${{ vars.TEST_LAMBDA_STOP }} \
-#             --statement-id ${{ vars.TEST_STATEMENT_ID }} \
-#             --action 'lambda:InvokeFunction' \
-#             --principal events.amazonaws.com \
-#             --source-arn arn:aws:events:${{ vars.TEST_REGION }}:${{ vars.TEST_AWS_ACCOUNT_NO }}:rule/StartRenaissance_*
+            echo "${{inputs.REGION_DEV}}"
+            echo "${{inputs.ACCOUNT_NO_DEV}}"
