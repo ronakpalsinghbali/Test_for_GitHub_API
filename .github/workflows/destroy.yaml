@@ -1,5 +1,5 @@
 
-name : Destroy_GitHub_API_TEST
+name : Destroy_WF_DEV2
 on:
   workflow_dispatch:
     inputs:
