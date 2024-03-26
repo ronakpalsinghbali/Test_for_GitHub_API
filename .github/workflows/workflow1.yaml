@@ -26,10 +26,12 @@ on:
     inputs:
       REGION_DEV:
         description: Region name
+        type: string
         required: true
       
       AWS_ACCOUNT_NO_DEV:
         description: Account Number
+        type: number
         required: true
 
 jobs:
