@@ -1,32 +1,31 @@
 
-name : Destroy_WF_DEV2
+name : Destroy_GitHub_API_TEST
 on:
   workflow_dispatch:
     inputs:
-      REGION_DEV:
+      REGION:
         description: Region name
         type: string
         required: true
-      
-      AWS_ACCOUNT_NO_DEV:
-        description: Account Number
-        type: number
-        required: true
 
+
+env:
+    REGION_DEV: ${{inputs.REGION}}
+    REGION_PROD: ${{inputs.REGION}}
 jobs:
 # Printing input Values.
     Checking-for-input-Values1:
         runs-on: ubuntu-latest
         
         steps:
-        - name: Print input Values for DEV2
+        - name: Print input Values for DEV
           if: github.ref == 'refs/heads/DEV2'
           run: |
-            echo "Region- ${{inputs.REGION_DEV}}"
-            echo "AWS Account NO- ${{inputs.AWS_ACCOUNT_NO_DEV}}"
+            echo "Region- ${{env.REGION_DEV}}"
+            
 
-        - name: Print input Values for DEV3
+        - name: Print input Values for Prod
           if: github.ref == 'refs/heads/DEV3'
           run: |
-              echo "Region- ${{inputs.REGION_DEV}}"
-              echo "AWS Account NO- ${{inputs.AWS_ACCOUNT_NO_DEV}}"
+              echo "Region- ${{env.REGION_PROD}}"
+              
