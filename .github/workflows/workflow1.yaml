@@ -1,44 +1,23 @@
-# echo "${{vars.ENV_TEST_REGION}},${{vars.ENV_TEST_AWS_ACCOUNT_NO}},${{vars.ENV_TEST_STATEMENT_ID}},${{vars.ENV_TEST_LAMBDA_START}},${{vars.ENV_TEST_LAMBDA_STOP}},${{vars.ENV_TEST_TF_STATE_BUCKET}}.${{vars.ENV_TEST_TF_VAR_STATE_FILE}}.${{vars.ENV_TEST_TF_STATELOCK_TABLE}}.${{vars.ENV_TEST_SONAR_PROJECT_KEY}}.${{vars.ENV_TEST_SONAR_PROJECT_NAME}}"
-# Variables and secrets in the repo:
-    # Variables:-
-    # TEST_REGION: ap-south-1
-    # TEST_AWS_ACCOUNT_NO: "889148926241"
-    # TEST_STATEMENT_ID: custom-resource-policy
-    # TEST_LAMBDA_START: autopark-start-vm-dev
-    # TEST_LAMBDA_STOP: autopark-stop-vm-dev
-
-    # TEST_TF_STATE_BUCKET: autopark-bucket-dev
-    # TEST_TF_VAR_STATE_FILE: autopark-dev.tfstate
-    # TEST_TF_STATELOCK_TABLE: autopark-tf-table-dev
-
-    # TEST_SONAR_PROJECT_KEY: ren-autopark-aws-key
-    # TEST_SONAR_PROJECT_NAME: ren-autopark-aws
-    
-    # Secretes:-
-    # ENV_DB_USERNAME_LAMBDA
-    # ENV_DB_PASSWORD_LAMBDA
-    # ENV_ACCESS_KEY_ID_LAMBDA
-    # ENV_SECRET_ACCESS_KEY_LAMBDA
-
 name : GitHub_API_TEST
 on:
   workflow_dispatch:
     inputs:
-      REGION_DEV:
+      REGION:
         description: Region name
-        required: true
-      
-      ACCOUNT_NO_DEV:
-        description: Account Number
+        type: string
         required: true
 
+env:
+  REGION_DEV: ${{inputs.REGION}}
 jobs:
-# Printing Variables Values.
-    Checking-for-Variables-Values1:
+# Configuring AWS.
+    AWS-configure:
         runs-on: ubuntu-latest
-        environment: DEV
+  
         steps:
-        - name: Print Variables Values
-          run: |
-            echo "Region- ${{inputs.REGION_DEV}}"
-            echo "AWS Account NO- ${{inputs.ACCOUNT_NO_DEV}}"
+          - name: Configure AWS Credentials(DEV ENV)
+            uses: aws-actions/configure-aws-credentials@v1
+            with:
+              aws-access-key-id:      ${{ secrets.AWS_ACCESS_KEY }}
+              aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              aws-region: ${{ env.REGION_DEV }}
