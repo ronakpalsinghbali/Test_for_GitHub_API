@@ -20,7 +20,7 @@
     # ENV_ACCESS_KEY_ID_LAMBDA
     # ENV_SECRET_ACCESS_KEY_LAMBDA
 
-name : 2GitHub_API_TEST
+name : GitHub_API_TEST
 on:
   workflow_dispatch:
     inputs:
