@@ -40,5 +40,5 @@ jobs:
         steps:
         - name: Print Variables Values
           run: |
-            echo "${{inputs.REGION_DEV}}"
-            echo "${{inputs.ACCOUNT_NO_DEV}}"
+            echo "Region- ${{inputs.REGION_DEV}}"
+            echo "AWS Account NO- ${{inputs.ACCOUNT_NO_DEV}}"
