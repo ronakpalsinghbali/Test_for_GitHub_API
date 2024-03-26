@@ -28,7 +28,7 @@ on:
         description: Region name
         required: true
       
-      ACCOUNT_NO_DEV:
+      AWS_ACCOUNT_NO_DEV:
         description: Account Number
         required: true
 
