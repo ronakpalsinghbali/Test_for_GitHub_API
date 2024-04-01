@@ -1,5 +1,5 @@
 
-name : GitHub_API_TEST
+name : wf2 download
 on:
   workflow_dispatch:
     # inputs:
@@ -22,14 +22,15 @@ jobs:
     #           aws-access-key-id:      ${{ secrets.AWS_ACCESS_KEY }}
     #           aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     #           aws-region: ${{ env.REGION_DEV }}
-  upload_artifact:
+  download_artifact:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo name
-        run: echo "Ronak" > name.txt
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
         with:
           name: my-name
-          path: name.txt
+          path: .
+          ref: main  # Specify the branch name here
+
+      - name: Read Name
+        run: cat name.txt
