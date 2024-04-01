@@ -9,12 +9,8 @@ jobs:
         id: artifact_step
         run: |
           echo "Hello, world" > hello.txt
-      - name: Set artifact name as output
-        run: echo "::set-output name=artifact_name::my-artifact"
-        env:
-          artifact_name: ${{ steps.artifact_step.outputs.artifact_name }}
       - name: Archive the artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.artifact_step.outputs.artifact_name }}
+          name: my-artifact # Provide a default name for the artifact
           path: hello.txt
