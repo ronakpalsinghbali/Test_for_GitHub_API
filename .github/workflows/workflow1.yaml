@@ -1,35 +1,22 @@
-
-name : wf1 upload
+name: Workflow A
 on:
-  workflow_dispatch:
-    # inputs:
-    #   REGION_DEV:
-    #     description: Region name for DEV ENV
-    #     type: string
-    #     required: true
-
-# env:
-  # REGION_DEV: ${{inputs.REGION_DEV}}
+  push:
+    branches:
+      - main
 jobs:
-# Configuring AWS.
-    # AWS-configure:
-    #     runs-on: ubuntu-latest
-  
-    #     steps:
-    #       - name: Configure AWS Credentials(DEV ENV)
-    #         uses: aws-actions/configure-aws-credentials@v4
-    #         with:
-    #           aws-access-key-id:      ${{ secrets.AWS_ACCESS_KEY }}
-    #           aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #           aws-region: ${{ env.REGION_DEV }}
-  upload_artifact:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo name
-        run: echo "Ronak" > name.txt
-
-      - name: Upload Artifact
+      - name: Produce artifact
+        id: artifact_step
+        run: |
+          echo "Hello, world" > hello.txt
+      - name: Set artifact name as output
+        run: echo "::set-output name=artifact_name::my-artifact"
+        env:
+          artifact_name: ${{ steps.artifact_step.outputs.artifact_name }}
+      - name: Archive the artifact
         uses: actions/upload-artifact@v2
         with:
-          name: my-name
-          path: name.txt
+          name: ${{ steps.artifact_step.outputs.artifact_name }}
+          path: hello.txt
