@@ -19,7 +19,7 @@ jobs:
         runs-on: ubuntu-latest
         
         steps:
-        - name: Print input Values for DEV2
+        - name: Print input Values for DEV
           if: github.ref == 'refs/heads/DEV2'
           run: |
             echo "Region- ${{inputs.REGION_DEV}}"
