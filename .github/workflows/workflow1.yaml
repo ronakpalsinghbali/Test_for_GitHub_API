@@ -3,13 +3,13 @@ name : GitHub_API_TEST
 on:
   workflow_dispatch:
     inputs:
-      REGION:
+      REGION_DEV:
         description: Region name
         type: string
         required: true
 
 env:
-  REGION_DEV: ${{inputs.REGION}}
+  REGION_DEV: ${{inputs.REGION_DEV}}
 jobs:
 # Configuring AWS.
     AWS-configure:
