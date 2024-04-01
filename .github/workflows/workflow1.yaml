@@ -2,23 +2,34 @@
 name : GitHub_API_TEST
 on:
   workflow_dispatch:
-    inputs:
-      REGION_DEV:
-        description: Region name for DEV ENV
-        type: string
-        required: true
+    # inputs:
+    #   REGION_DEV:
+    #     description: Region name for DEV ENV
+    #     type: string
+    #     required: true
 
-env:
-  REGION_DEV: ${{inputs.REGION_DEV}}
+# env:
+  # REGION_DEV: ${{inputs.REGION_DEV}}
 jobs:
 # Configuring AWS.
-    AWS-configure:
-        runs-on: ubuntu-latest
+    # AWS-configure:
+    #     runs-on: ubuntu-latest
   
-        steps:
-          - name: Configure AWS Credentials(DEV ENV)
-            uses: aws-actions/configure-aws-credentials@v4
-            with:
-              aws-access-key-id:      ${{ secrets.AWS_ACCESS_KEY }}
-              aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              aws-region: ${{ env.REGION_DEV }}
+    #     steps:
+    #       - name: Configure AWS Credentials(DEV ENV)
+    #         uses: aws-actions/configure-aws-credentials@v4
+    #         with:
+    #           aws-access-key-id:      ${{ secrets.AWS_ACCESS_KEY }}
+    #           aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #           aws-region: ${{ env.REGION_DEV }}
+  upload_artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo name
+        run: echo "Ronak" > name.txt
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-name
+          path: name.txt
