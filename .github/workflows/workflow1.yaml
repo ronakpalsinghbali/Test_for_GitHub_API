@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       REGION_DEV:
-        description: Region name
+        description: Region name for DEV ENV
         type: string
         required: true
 
