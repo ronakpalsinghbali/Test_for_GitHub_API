@@ -25,6 +25,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-artifact
+          path: hello.txt
       - name: Testing download artifact
         run: ls -R
         
