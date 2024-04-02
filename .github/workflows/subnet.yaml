@@ -17,6 +17,8 @@ jobs:
         steps:
           - name: Printing Subnet IDs
             run: |
-              echo "${{env.SUBNET_ID_DEV}}"
-            
+              IFS=',' read -r -a SUBNETS <<< "${SUBNET_ID_DEV}"
+              for subnet in "${SUBNETS[@]}"; do
+               echo "$subnet"
+              done
             
