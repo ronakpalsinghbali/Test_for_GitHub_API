@@ -19,3 +19,4 @@ jobs:
       - name: Set subnet_ids variable
         run: |
           echo "Subnet IDs: [${{env.SUBNET_ID_DEV}}]"
+          shell: /usr/bin/bash
