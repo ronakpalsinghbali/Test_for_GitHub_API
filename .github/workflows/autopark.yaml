@@ -12,37 +12,61 @@ env:
   SUBNET_ID_DEV: ${{ inputs.SUBNET_IDs }}
 
 jobs:
+  Transform_Subnet_ID:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Transform Subnet IDs
+        id: transform_subnet_ids
+        run: |
+          # Transform input SUBNET_IDs to the desired format
+          SUBNET_IDS=${{ env.SUBNET_ID_DEV }}
+          TRANSFORMED_SUBNET_IDS=$(echo "$SUBNET_IDS" | sed 's/\([^,]\+\)/\"\\\"&\\\"\"/g')
+          echo "::set-output name=transformed_subnet_ids::$TRANSFORMED_SUBNET_IDS"
+      
+      - name: Set Transformed Subnet IDs
+        run: |
+          echo "Transformed Subnet IDs: [${{ steps.transform_subnet_ids.outputs.transformed_subnet_ids }}]"
+        shell: bash
+
   Printing_Subnet_ID:
     runs-on: ubuntu-latest
+    needs: Transform_Subnet_ID
     steps:
       - name: Set subnet_ids variable
         run: |
-          echo "Subnet IDs: [${{ inputs.SUBNET_IDs }}]"
+          echo "Subnet IDs: [${{ needs.Transform_Subnet_ID.outputs.transformed_subnet_ids }}]"
         shell: bash
+  # Printing_Subnet_ID:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Set subnet_ids variable
+  #       run: |
+  #         echo "Subnet IDs: [${{ inputs.SUBNET_IDs }}]"
+  #       shell: bash
 
-  terraform:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure AWS Credentials for DEV ENV
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "ap-south-1"
+  # terraform:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Configure AWS Credentials for DEV ENV
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: "ap-south-1"
 
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.1.0
+  #     - name: Install Terraform
+  #       uses: hashicorp/setup-terraform@v1
+  #       with:
+  #         terraform_version: 1.1.0
       
-      - name: Initialize Terraform
-        run: terraform init
+  #     - name: Initialize Terraform
+  #       run: terraform init
 
-      - name: Plan Terraform
-        run: terraform plan -var-file="dev.tfvars" -var="db_subnet_ids=${{env.SUBNET_ID_DEV}}"
+  #     - name: Plan Terraform
+  #       run: terraform plan -var-file="dev.tfvars" -var="db_subnet_ids=${{env.SUBNET_ID_DEV}}"
 
         # -var="db_subnet_ids=[\"subnet-07d0a19dba27e6703\", \"subnet-001e69de25e3fd631\"] for github action ui
         # "SUBNET_IDs": "[\\\"subnet-07d0a19dba27e6703\\\", \\\"subnet-001e69de25e3fd631\\\"]" for github api
