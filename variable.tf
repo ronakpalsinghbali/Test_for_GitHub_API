@@ -1,3 +1,3 @@
-variable "dp_subnet_ids" {
+variable "db_subnet_ids" {
   type = list(string)
 }

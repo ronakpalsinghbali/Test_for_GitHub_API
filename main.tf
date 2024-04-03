@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_db_subnet_group" "this" {
   name       = "test"
-  subnet_ids = var.dp_subnet_ids
+  subnet_ids = var.db_subnet_ids
 }
 
 
