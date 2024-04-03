@@ -8,8 +8,8 @@ resource "aws_db_subnet_group" "this" {
 }
 
 variable "subnet_ids" {
-  type = list(string)
-  default = []
+  type = any
+  default = ""
 }
 
 output "db_subnet_group" {
