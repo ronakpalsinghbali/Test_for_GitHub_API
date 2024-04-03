@@ -8,32 +8,26 @@ on:
         type: string
         required: true
 
+env:
+  SUBNET_ID_DEV: ${{ inputs.SUBNET_IDs }}
+
 jobs:
-  Transform_Subnet_ID:
+  Transform_and_Print_Subnet_ID:
     runs-on: ubuntu-latest
     steps:
-      - name: Transform Subnet IDs
-        id: transform_subnet_ids
+      - name: Transform and Print Subnet IDs
+        id: transform_and_print_subnet_ids
         run: |
           # Transform input SUBNET_IDs to the desired format
           SUBNET_IDS="${{ inputs.SUBNET_IDs }}"
           TRANSFORMED_SUBNET_IDS=$(echo "$SUBNET_IDS" | sed 's/\([^,]\+\)/\"\\\"&\\\"\"/g')
+          echo "Transformed Subnet IDs: [${TRANSFORMED_SUBNET_IDS}]"
           echo "::set-output name=transformed_subnet_ids::$TRANSFORMED_SUBNET_IDS"
       
-      - name: Set Transformed Subnet IDs
-        run: |
-          echo "Transformed Subnet IDs: [${{ steps.transform_subnet_ids.outputs.transformed_subnet_ids }}]"
-        shell: bash
-
-  Printing_Subnet_ID:
-    runs-on: ubuntu-latest
-    needs: Transform_Subnet_ID
-    steps:
       - name: Set subnet_ids variable
         run: |
-          echo "Subnet IDs: [${{ needs.Transform_Subnet_ID.outputs.transformed_subnet_ids }}]"
+          echo "Subnet IDs: [${{ steps.transform_and_print_subnet_ids.outputs.transformed_subnet_ids }}]"
         shell: bash
-
   # Printing_Subnet_ID:
   #   runs-on: ubuntu-latest
   #   steps:
