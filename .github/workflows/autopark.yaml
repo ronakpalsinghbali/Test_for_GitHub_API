@@ -44,4 +44,5 @@ jobs:
       - name: Plan Terraform
         run: terraform plan -var-file="dev.tfvars" -var="db_subnet_ids=${{env.SUBNET_ID_DEV}}"
 
-        # -var="db_subnet_ids=[\"subnet-07d0a19dba27e6703\", \"subnet-001e69de25e3fd631\"]
+        # -var="db_subnet_ids=[\"subnet-07d0a19dba27e6703\", \"subnet-001e69de25e3fd631\"] for github action ui
+        # "SUBNET_IDs": "[\\\"subnet-07d0a19dba27e6703\\\", \\\"subnet-001e69de25e3fd631\\\"]" for github api
