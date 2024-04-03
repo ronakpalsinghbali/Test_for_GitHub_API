@@ -11,23 +11,57 @@ on:
 env:
   SUBNET_ID_DEV: ${{ inputs.SUBNET_IDs }}
 
+
 jobs:
-  Transform_and_Print_Subnet_ID:
+  terraform:
     runs-on: ubuntu-latest
     steps:
-      - name: Transform and Print Subnet IDs
-        id: transform_and_print_subnet_ids
+      - name: Parse subnet IDs
+        id: parse_subnets
+        run: echo "::set-output name=subnets::$(echo ${{ env.SUBNET_ID_DEV }} | tr ',' '\n' | sed 's/^/\"/;s/$/\"/' | tr '\n' ', ' | sed 's/, $//')"
+
+      - name: Printing the parsed value
+        id: parsed-printing
         run: |
-          # Transform input SUBNET_IDs to the desired format
-          SUBNET_IDS="${{ env.SUBNET_ID_DEV }}"
-          TRANSFORMED_SUBNET_IDS=$(echo "$SUBNET_IDS" | sed 's/\([^,]\+\)/\"\\\"&\\\"\"/g')
-          echo "Transformed Subnet IDs: [${TRANSFORMED_SUBNET_IDS}]"
-          echo "::set-output name=transformed_subnet_ids::$TRANSFORMED_SUBNET_IDS"
+          echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.subnets }}
+
+      - name: Configure AWS Credentials for DEV ENV
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "ap-south-1"
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.1.0
       
-      - name: Set subnet_ids variable
-        run: |
-          echo "Subnet IDs: [${{ steps.transform_and_print_subnet_ids.outputs.transformed_subnet_ids }}]"
-        shell: bash
+      - name: Initialize Terraform
+        run: terraform init
+
+      # - name: Plan Terraform
+      #   run: terraform plan -var-file="dev.tfvars" -var="db_subnet_ids=${{ steps.parse_subnets.outputs.subnets }}"
+
+  # Transform_and_Print_Subnet_ID:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Transform and Print Subnet IDs
+  #       id: transform_and_print_subnet_ids
+  #       run: |
+  #         # Transform input SUBNET_IDs to the desired format
+  #         SUBNET_IDS="${{ env.SUBNET_ID_DEV }}"
+  #         TRANSFORMED_SUBNET_IDS=$(echo "$SUBNET_IDS" | sed 's/\([^,]\+\)/\"\\\"&\\\"\"/g')
+  #         echo "Transformed Subnet IDs: [${TRANSFORMED_SUBNET_IDS}]"
+  #         echo "::set-output name=transformed_subnet_ids::$TRANSFORMED_SUBNET_IDS"
+      
+  #     - name: Set subnet_ids variable
+  #       run: |
+  #         echo "Subnet IDs: [${{ steps.transform_and_print_subnet_ids.outputs.transformed_subnet_ids }}]"
+  #       shell: bash
   # terraform:
   #   runs-on: ubuntu-latest
   #   steps:
