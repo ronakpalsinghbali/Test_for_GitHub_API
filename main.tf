@@ -4,14 +4,10 @@ provider "aws" {
 
 resource "aws_db_subnet_group" "this" {
   name       = "test"
-  subnet_ids = var.subnet_ids
+  subnet_ids = ["subnet-07d0a19dba27e6703", "subnet-001e69de25e3fd631"]
 }
 
-variable "subnet_ids" {
-  type    = list(string)
-  default = []
-}
+# variable "subnet_ids" {
+#   type    = list(string)
+# }
 
-output "db_subnet_group" {
-  value = aws_db_subnet_group.this.id
-}
