@@ -3,88 +3,71 @@ name: GitHub_Subnet_TEST
 on:
   workflow_dispatch:
     inputs:
-      SUBNET_IDs:
-        description: SUBNET IDs
+      SUBNET_IDs_LAMBDA:
+        description: SUBNET IDs for Lmabda
         type: string
         required: true
 
-env:
-  SUBNET_ID_DEV: ${{ inputs.SUBNET_IDs }}
+      SUBNET_IDs_RDS:
+        description: SUBNET IDs for RDS
+        type: string
+        required: true
+      
+      
 
+env:
+  SUBNET_ID_LAMBDA: ${{ inputs.SUBNET_IDs_LAMBDA }}
+  SUBNET_ID_RDS: ${{inputs.SUBNET_IDs_RDS}}
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
     steps:
-      - name: Parse subnet IDs
-        id: parse_subnets
-        run: echo "::set-output name=subnets::[\\\"$(echo ${{ github.event.inputs.SUBNET_IDs }} | sed 's/,/\\", \\"/g')\\\"]"
+      - name: Parse subnet IDs for lambda
+        id: parse_subnets_lambda
+        run: echo "::set-output name=subnets_lambda::[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]"
+      
+      - name: Parse subnet IDs for RDS
+        id: parse_subnets_RDS
+        run: echo "::set-output name=subnets_rds::[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]"
 
-      - name: Printing the parsed value
-        id: parsed-printing
+      - name: Printing the parsed value for Lambda
+        id: parsed-printing-lambda
         run: |
-          echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.subnets }}
-
-      - name: Configure AWS Credentials for DEV ENV
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "ap-south-1"
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.1.0
+          echo PARSED-SUBNETS=${{ steps.parse_subnets_lambda.outputs.subnets_lambda }}
       
-      - name: Initialize Terraform
-        run: terraform init
+      - name: Printing the parsed value for rds
+        id: parsed-printing-rds
+        run: |
+          echo PARSED-SUBNETS=${{ steps.parse_subnets_RDS.outputs.subnets_rds }}
 
-      - name: Plan Terraform
-        run: terraform plan -var-file="dev.tfvars" -var="db_subnet_ids=${{ steps.parse_subnets.outputs.subnets }}"
+      # - name: Configure AWS Credentials for DEV ENV
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "ap-south-1"
 
-  # Transform_and_Print_Subnet_ID:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Transform and Print Subnet IDs
-  #       id: transform_and_print_subnet_ids
-  #       run: |
-  #         # Transform input SUBNET_IDs to the desired format
-  #         SUBNET_IDS="${{ env.SUBNET_ID_DEV }}"
-  #         TRANSFORMED_SUBNET_IDS=$(echo "$SUBNET_IDS" | sed 's/\([^,]\+\)/\"\\\"&\\\"\"/g')
-  #         echo "Transformed Subnet IDs: [${TRANSFORMED_SUBNET_IDS}]"
-  #         echo "::set-output name=transformed_subnet_ids::$TRANSFORMED_SUBNET_IDS"
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
+
+      # - name: Install Terraform
+      #   uses: hashicorp/setup-terraform@v1
+      #   with:
+      #     terraform_version: 1.1.0
       
-  #     - name: Set subnet_ids variable
-  #       run: |
-  #         echo "Subnet IDs: [${{ steps.transform_and_print_subnet_ids.outputs.transformed_subnet_ids }}]"
-  #       shell: bash
-  # terraform:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Configure AWS Credentials for DEV ENV
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: "ap-south-1"
+      # - name: Initialize Terraform
+      #   run: terraform init
 
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
+      # - name: Plan Terraform
+      #   run: terraform plan -var-file="dev.tfvars" -var="db_subnet_ids=${{ steps.parse_subnets.outputs.subnets }}"
 
-  #     - name: Install Terraform
-  #       uses: hashicorp/setup-terraform@v1
-  #       with:
-  #         terraform_version: 1.1.0
-      
-  #     - name: Initialize Terraform
-  #       run: terraform init
 
-  #     - name: Plan Terraform
-  #       run: terraform plan -var-file="dev.tfvars" -var="db_subnet_ids=${{env.SUBNET_ID_DEV}}"
 
         # -var="db_subnet_ids=[\"subnet-07d0a19dba27e6703\", \"subnet-001e69de25e3fd631\"] for github action ui
         # "SUBNET_IDs": "[\\\"subnet-07d0a19dba27e6703\\\", \\\"subnet-001e69de25e3fd631\\\"]" for github api
+
+
+
+
+        # subnet-07d0a19dba27e6703,subnet-07d0a19dba27e6704,subnet-07d0a19dba27e6705
