@@ -14,28 +14,22 @@ env:
 jobs:
   Transform_and_Print_Subnet_ID:
     runs-on: ubuntu-latest
+    env:
+      TRANSFORMED_SUBNET_IDS: ""
     steps:
       - name: Transform and Print Subnet IDs
         id: transform_and_print_subnet_ids
         run: |
-          # Transform input SUBNET_IDs to the desired format
-          SUBNET_IDS="${{ inputs.SUBNET_IDs }}"
+          SUBNET_IDS="${{ env.SUBNET_ID_DEV }}"
           TRANSFORMED_SUBNET_IDS=$(echo "$SUBNET_IDS" | sed 's/\([^,]\+\)/\"\\\"&\\\"\"/g')
-          echo "Transformed Subnet IDs: [${TRANSFORMED_SUBNET_IDS}]"
+          TRANSFORMED_SUBNET_IDS="[${TRANSFORMED_SUBNET_IDS}]"
+          echo "Transformed Subnet IDs: ${TRANSFORMED_SUBNET_IDS}"
+          echo "export TRANSFORMED_SUBNET_IDS='${TRANSFORMED_SUBNET_IDS}'" >> $GITHUB_ENV
           echo "::set-output name=transformed_subnet_ids::$TRANSFORMED_SUBNET_IDS"
       
       - name: Set subnet_ids variable
         run: |
-          echo "Subnet IDs: [${{ steps.transform_and_print_subnet_ids.outputs.transformed_subnet_ids }}]"
-        shell: bash
-  # Printing_Subnet_ID:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Set subnet_ids variable
-  #       run: |
-  #         echo "Subnet IDs: [${{ inputs.SUBNET_IDs }}]"
-  #       shell: bash
-
+          echo "Subnet IDs: ${TRANSFORMED_SUBNET_IDS}"
   # terraform:
   #   runs-on: ubuntu-latest
   #   steps:
