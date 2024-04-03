@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Set subnet_ids variable
         run: |
-          echo "Subnet IDs: [${{env.SUBNET_ID_DEV}}]"
+          echo "Subnet IDs: [${{inputs.SUBNET_IDs}}]"
         shell: bash
 
   terraform:
@@ -44,4 +44,4 @@ jobs:
       - name: Plan Terraform
         run: terraform plan \
           -var-file="dev.tfvars" \
-          -var="subnet_ids=[${{env.SUBNET_ID_DEV}}]"
+          -var="subnet_ids=[${{inputs.SUBNET_IDs}}]"
