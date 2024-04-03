@@ -44,4 +44,4 @@ jobs:
       - name: Plan Terraform
         run: terraform plan \
           -var-file="dev.tfvars" \
-          -var="subnet_ids=[${{inputs.SUBNET_IDs}}]"
+          -var="subnet_ids=${{ inputs.SUBNET_IDs }}"
