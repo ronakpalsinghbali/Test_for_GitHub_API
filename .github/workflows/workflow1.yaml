@@ -1,31 +1,18 @@
-name: Workflow A
+
+name : GitHub_Subnet_TEST
 on:
   workflow_dispatch:
+    
+
+env:
+  SUBNET_ID_DEV: subnet-07d0a19dba27e6703, subnet-001e69de25e3fd631, subnet-07d0a19dba27e6703, subnet-001e69de25e3fd631
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Produce artifact
-        id: artifact_step
-        run: |
-          echo "Hello, world" > hello.txt
-      - name: Archive the artifact
-        id: artifact-upload-step
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-artifact
-          path: hello.txt
-      - name: Output artifact ID
-        run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Download artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-artifact
-          path: hello.txt
-      - name: Testing download artifact
-        run: ls -R
-        
+
+    Printing_Subnet_ID:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Printing Subnet IDs
+            run: |
+              echo "${{env.SUBNET_ID_DEV}}"
+            
+            

@@ -1,0 +1,40 @@
+name: GitHub_Subnet_TEST
+
+on:
+  workflow_dispatch:
+    inputs:
+      SUBNET_IDs:
+        description: SUBNET IDs
+        type: string
+        required: true
+
+env:
+  SUBNET_ID_DEV: ${{ inputs.SUBNET_IDs }}
+
+jobs:
+  Printing_Subnet_ID:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set subnet_ids variable
+        run: |
+          echo "Subnet IDs: [${{env.SUBNET_ID_DEV}}]"
+        shell: bash
+
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.1.0
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Plan Terraform
+        run: terraform plan \
+          -var-file="dev.tfvars" \
+          -var="subnet_ids=[${{env.SUBNET_ID_DEV}}]"
