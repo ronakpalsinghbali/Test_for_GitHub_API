@@ -1,5 +1,5 @@
 
-name: GitHub_Subnet_TEST
+name: GitHub_TEST_subnet
 
 on:
   workflow_dispatch:
