@@ -10,7 +10,7 @@ on:
         required: true
 
 env:
-  SUBNET_ID_DEV: ${{ inputs.SUBNET_ID }}
+  SUBNET_ID_DEV: ${{ inputs.SUBNET_IDs }}
 
 jobs:
   Printing_Subnet_ID:
