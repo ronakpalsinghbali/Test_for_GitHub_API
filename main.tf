@@ -2,9 +2,12 @@ provider "aws" {
   region = "ap-south-1"
 }
 
-resource "aws_db_subnet_group" "this" {
+resource "aws_db_subnet_group" "lambda" {
   name       = "test"
-  subnet_ids = var.db_subnet_ids
+  subnet_ids = var.lambda_subnet_ids
 }
 
-
+resource "aws_db_subnet_group" "rds" {
+  name       = "test2"
+  subnet_ids = var.rds_subnet_ids
+}

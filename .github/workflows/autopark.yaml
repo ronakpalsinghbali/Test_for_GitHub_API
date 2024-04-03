@@ -37,26 +37,29 @@ jobs:
         run: |
           echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.subnets_rds }}
 
-      # - name: Configure AWS Credentials for DEV ENV
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: "ap-south-1"
+      - name: Configure AWS Credentials for DEV ENV
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "ap-south-1"
 
-      # - name: Checkout code
-      #   uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # - name: Install Terraform
-      #   uses: hashicorp/setup-terraform@v1
-      #   with:
-      #     terraform_version: 1.1.0
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.1.0
       
-      # - name: Initialize Terraform
-      #   run: terraform init
+      - name: Initialize Terraform
+        run: terraform init
 
-      # - name: Plan Terraform
-      #   run: terraform plan -var-file="dev.tfvars" -var="db_subnet_ids=${{ steps.parse_subnets.outputs.subnets }}"
+      - name: Plan Terraform
+        run: | 
+          terraform plan -var-file="dev.tfvars" \
+          -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.subnets_lambda }}" \
+          -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.subnets_rds }}"
 
 
 
