@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Set subnet_ids variable
         run: |
-          echo "Subnet IDs: [${{inputs.SUBNET_IDs}}]"
+          echo "Subnet IDs: [${{ inputs.SUBNET_IDs }}]"
         shell: bash
 
   terraform:
@@ -26,8 +26,8 @@ jobs:
       - name: Configure AWS Credentials for DEV ENV
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
-          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "ap-south-1"
 
       - name: Checkout code
@@ -42,4 +42,4 @@ jobs:
         run: terraform init
 
       - name: Plan Terraform
-        run: terraform plan -var-file="dev.tfvars" -var="subnet_ids=subnet-07d0a19dba27e6703"
+        run: terraform plan -var-file="dev.tfvars" -var="subnet_ids=${{ inputs.SUBNET_IDs }}"
