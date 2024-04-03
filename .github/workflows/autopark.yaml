@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       SUBNET_IDs_LAMBDA:
-        description: SUBNET IDs for Lmabda
+        description: SUBNET IDs for Lambda
         type: string
         required: true
 
@@ -13,33 +13,29 @@ on:
         type: string
         required: true
       
-      
-
 env:
   SUBNET_ID_LAMBDA: ${{ inputs.SUBNET_IDs_LAMBDA }}
-  SUBNET_ID_RDS: ${{inputs.SUBNET_IDs_RDS}}
+  SUBNET_ID_RDS: ${{ inputs.SUBNET_IDs_RDS }}
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
     steps:
-      - name: Parse subnet IDs for lambda
-        id: parse_subnets_lambda
-        run: echo "::set-output name=subnets_lambda::[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]"
-      
-      - name: Parse subnet IDs for RDS
-        id: parse_subnets_RDS
-        run: echo "::set-output name=subnets_rds::[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]"
+      - name: Parse subnet IDs
+        id: parse_subnets
+        run: |
+          echo "::set-output name=subnets_lambda::[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]"
+          echo "::set-output name=subnets_rds::[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]"
 
       - name: Printing the parsed value for Lambda
         id: parsed-printing-lambda
         run: |
-          echo PARSED-SUBNETS=${{ steps.parse_subnets_lambda.outputs.subnets_lambda }}
-      
-      - name: Printing the parsed value for rds
+          echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.subnets_lambda }}
+
+      - name: Printing the parsed value for RDS
         id: parsed-printing-rds
         run: |
-          echo PARSED-SUBNETS=${{ steps.parse_subnets_RDS.outputs.subnets_rds }}
+          echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.subnets_rds }}
 
       # - name: Configure AWS Credentials for DEV ENV
       #   uses: aws-actions/configure-aws-credentials@v1
