@@ -67,7 +67,7 @@ jobs:
 
       - name: Plan Terraform
         run: | 
-          terraform plan -var-file="terra-code/dev.tfvars" \
+          terraform plan -var-file="dev.tfvars" \
           -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.subnets_lambda }}" \
           -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.subnets_rds }}"
 
