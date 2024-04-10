@@ -58,7 +58,7 @@ jobs:
         with:
           directory: .
           soft_fail: true
-          framework: terraform
+          # framework: terraform
           download_external_modules: true
           output_file_path: console,results.sarif
           github_pat: ${{ secrets.TOKEN_PAT }}
