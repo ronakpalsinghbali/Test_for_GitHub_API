@@ -51,6 +51,15 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.1.0
+
+      - name: Run Checkov action
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          soft_fail: true
+          download_external_modules: true
+          github_pat: ${{ secrets.TOKEN_PAT }}
       
       - name: Initialize Terraform
         run: terraform init
