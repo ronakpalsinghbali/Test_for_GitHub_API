@@ -56,8 +56,9 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: terra-code/
+          directory: .
           soft_fail: true
+          framework: terraform
           download_external_modules: true
           github_pat: ${{ secrets.TOKEN_PAT }}
       
