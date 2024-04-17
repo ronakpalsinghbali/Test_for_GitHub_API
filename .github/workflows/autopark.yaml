@@ -60,7 +60,7 @@ jobs:
           soft_fail: true
           framework: terraform
           download_external_modules: true
-          output_format: sarif
+          output_format: cli
           github_pat: ${{ secrets.TOKEN_PAT }}
         
       - name: Initialize Terraform
