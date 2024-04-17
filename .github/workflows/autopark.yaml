@@ -26,10 +26,7 @@ jobs:
         run: |
           echo "SUBNET_LAMBDA=[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
           echo "SUBNET_RDS=[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
-        # run: |
-        #   echo "::set-output name=subnets_lambda::[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]"
-        #   echo "::set-output name=subnets_rds::[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]"
-
+        
       - name: Printing the parsed value for Lambda
         id: parsed-printing-lambda
         run: |
@@ -41,17 +38,17 @@ jobs:
           echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.SUBNET_RDS }}
 
       - name: Configure AWS Credentials for DEV ENV
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "ap-south-1"
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.1.0
 
@@ -75,12 +72,3 @@ jobs:
           -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_LAMBDA }}" \
           -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_RDS }}"
 
-
-
-        # -var="db_subnet_ids=[\"subnet-07d0a19dba27e6703\", \"subnet-001e69de25e3fd631\"] for github action ui
-        # "SUBNET_IDs": "[\\\"subnet-07d0a19dba27e6703\\\", \\\"subnet-001e69de25e3fd631\\\"]" for github api
-
-
-
-
-        # subnet-07d0a19dba27e6703,subnet-07d0a19dba27e6704,subnet-07d0a19dba27e6705
