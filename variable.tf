@@ -8,6 +8,3 @@ variable "rds_subnet_ids" {
   default = [ "" ]
 }
 
-variable "region" {
-  type = string
-}
