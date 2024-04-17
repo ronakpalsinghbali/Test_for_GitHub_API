@@ -24,18 +24,21 @@ jobs:
       - name: Parse subnet IDs
         id: parse_subnets
         run: |
-          echo "::set-output name=subnets_lambda::[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]"
-          echo "::set-output name=subnets_rds::[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]"
+          echo "{SUBNET_LAMBDA}={[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]}" >> $GITHUB_OUTPUT
+          echo "{SUBNET_RDS}={[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]}" >> $GITHUB_OUTPUT
+        # run: |
+        #   echo "::set-output name=subnets_lambda::[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]"
+        #   echo "::set-output name=subnets_rds::[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]"
 
       - name: Printing the parsed value for Lambda
         id: parsed-printing-lambda
         run: |
-          echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.subnets_lambda }}
+          echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.SUBNET_LAMBDA }}
 
       - name: Printing the parsed value for RDS
         id: parsed-printing-rds
         run: |
-          echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.subnets_rds }}
+          echo PARSED-SUBNETS=${{ steps.parse_subnets.outputs.SUBNET_RDS }}
 
       - name: Configure AWS Credentials for DEV ENV
         uses: aws-actions/configure-aws-credentials@v1
@@ -69,8 +72,8 @@ jobs:
       - name: Plan Terraform
         run: | 
           terraform plan -var-file="dev.tfvars" \
-          -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.subnets_lambda }}" \
-          -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.subnets_rds }}"
+          -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_LAMBDA }}" \
+          -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_RDS }}"
 
 
 
