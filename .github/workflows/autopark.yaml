@@ -1,4 +1,4 @@
-name: GitHub_Subnet_TEST
+name: GitHub_SubnetIDs_parsing
 
 on:
   workflow_dispatch:
@@ -24,8 +24,8 @@ jobs:
       - name: Parse subnet IDs
         id: parse_subnets
         run: |
-          echo "{SUBNET_LAMBDA}={[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]}" >> $GITHUB_OUTPUT
-          echo "{SUBNET_RDS}={[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]}" >> $GITHUB_OUTPUT
+          echo "SUBNET_LAMBDA=[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]" >> $GITHUB_OUTPUT
+          echo "SUBNET_RDS=[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]" >> $GITHUB_OUTPUT
         # run: |
         #   echo "::set-output name=subnets_lambda::[\\\"$(echo ${{ env.SUBNET_ID_LAMBDA }} | sed 's/,/\\", \\"/g')\\\"]"
         #   echo "::set-output name=subnets_rds::[\\\"$(echo ${{ env.SUBNET_ID_RDS }} | sed 's/,/\\", \\"/g')\\\"]"
