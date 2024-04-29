@@ -84,7 +84,7 @@ jobs:
           -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_RDS }}"
 
       - name: Microsoft Teams Webhook Message Bot
-        uses: myusufcse/microsoft-teams-message-bot@v1.1
+        uses: myusufcse/microsoft-teams-message-bot@main
         with:
           webhook: ${{ secrets.MS_WEBHOOK_URL }}
           message: hello there from GitHub
