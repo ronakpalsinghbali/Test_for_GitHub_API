@@ -87,7 +87,7 @@ jobs:
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
         with:
-          connection_url: "smtps://rocket0111league@gmail.com:P@ssworD211298@smtp.gmail.com:587"
+          connection_url: "smtp://rocket0111league@gmail.com:P@ssworD211298@smtp.gmail.com:587"
           subject: Github Actions job result
           to: captain.21panda@gmail.com
           from: Rocket
