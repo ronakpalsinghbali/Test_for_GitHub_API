@@ -7,7 +7,7 @@ on:
         description: SUBNET IDs for Lambda
         type: string
         required: true
-        
+
       SUBNET_IDs_RDS:
         description: SUBNET IDs for RDS
         type: string
@@ -83,3 +83,18 @@ jobs:
           -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_LAMBDA }}" \
           -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_RDS }}"
 
+
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          connection_url: "smtps://rocket0111league@gmail.com:P@ssworD211298@smtp.gmail.com:465"
+          subject: Github Actions job result
+          to: captain.21panda@gmail.com
+          from: Rocket
+          body: Build job of ${{github.repository}} completed successfully!
+
+
+
+
+
+          # smtps://rocket0111league@gmail.com:P@ssworD211298@smtp.gmail.com:465
