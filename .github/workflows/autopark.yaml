@@ -87,6 +87,6 @@ jobs:
         uses: myusufcse/microsoft-teams-message-bot@v1.1
         with:
           webhook: ${{ secrets.MS_WEBHOOK_URL }}
-          message: "hello there from GitHub"
+          message: hello there from GitHub
           
 
