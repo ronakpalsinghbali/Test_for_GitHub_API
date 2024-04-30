@@ -87,12 +87,15 @@ jobs:
         id: Set_output
         run: |
           tf_output=$(<out.json)
-          echo "::set-output name=tf_output::$tf_output"
+          echo "MY_VARIABLE=$tf_output" >> $GITHUB_ENV
+        
+      - name: Use environment variable
+        run: echo "The value of ENV is $MY_VARIABLE"
 
       - name: Microsoft Teams Webhook Message Bot
         uses: myusufcse/microsoft-teams-message-bot@main
         with:
           webhook: ${{ secrets.MS_WEBHOOK_URL }}
-          message: ${{steps.Set_output.outputs.tf_output}}
+          message: ${{env.MY_VARIABLE}}
           
 
