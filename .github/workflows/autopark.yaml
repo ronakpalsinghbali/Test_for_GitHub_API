@@ -99,21 +99,7 @@ jobs:
       #             The infra has been deployed
       #             REST_API_URL - ${{env.REST_API_URL}}
           
-      
-      - name: Convert JSON to String
-        id: convert
+      - name: Send file to Teams
         run: |
-          JSON_STRING=$(cat out2.json | jq -r 'to_entries | map("\(.key)=\(.value | join(", "))") | join(", ")')
-          echo $JSON_STRING
-
-      # - name: print URL
-      #   run: echo $REST_API_URL
-
-      # - name: Microsoft Teams Webhook Message Bot
-      #   uses: myusufcse/microsoft-teams-message-bot@main
-      #   with:
-      #     webhook: ${{ secrets.MS_WEBHOOK_URL }}
-      #     message: |
-      #             The infra has been deployed
-      #             REST_API_URL - ${{env.REST_API_URL}}
+          curl -H "Content-Type: application/json" -d @out2.json ${{ secrets.MS_WEBHOOK_URL }}
 
