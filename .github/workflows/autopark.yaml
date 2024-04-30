@@ -99,19 +99,21 @@ jobs:
       #             The infra has been deployed
       #             REST_API_URL - ${{env.REST_API_URL}}
           
-      - name: Extract REST API URL
+      
+      - name: Convert JSON to String
+        id: convert
         run: |
-          file_txt=$(<out.txt)
-          echo "REST_API_URL=$file_txt" >> $GITHUB_ENV
+          JSON_STRING=$(cat out2.json | jq -r 'to_entries | map("\(.key)=\(.value | join(", "))") | join(", ")')
+          echo $JSON_STRING
 
-      - name: print URL
-        run: echo $REST_API_URL
+      # - name: print URL
+      #   run: echo $REST_API_URL
 
-      - name: Microsoft Teams Webhook Message Bot
-        uses: myusufcse/microsoft-teams-message-bot@main
-        with:
-          webhook: ${{ secrets.MS_WEBHOOK_URL }}
-          message: |
-                  The infra has been deployed
-                  REST_API_URL - ${{env.REST_API_URL}}
+      # - name: Microsoft Teams Webhook Message Bot
+      #   uses: myusufcse/microsoft-teams-message-bot@main
+      #   with:
+      #     webhook: ${{ secrets.MS_WEBHOOK_URL }}
+      #     message: |
+      #             The infra has been deployed
+      #             REST_API_URL - ${{env.REST_API_URL}}
 

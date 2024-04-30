@@ -1,11 +1,14 @@
+cloudwatch_logs_arn=
 arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-schedule-dev2
 arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-adhoc-dev2
 arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-start-vm-dev2
 arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-stop-vm-dev2
+cloudwatch_logs_name=
 /aws/lambda/autopark-schedule-dev2
 /aws/lambda/autopark-adhoc-dev2
 /aws/lambda/autopark-start-vm-dev2
 /aws/lambda/autopark-stop-vm-dev2
+db_instance_endpoint=
 autopark-dev2-test.crczj4ofrlvi.us-east-2.rds.amazonaws.com:5432
 
 arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:autopark-schedule-dev2/invocations
