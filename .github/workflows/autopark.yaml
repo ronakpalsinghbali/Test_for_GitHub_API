@@ -83,10 +83,27 @@ jobs:
           -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_LAMBDA }}" \
           -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_RDS }}"
 
+      # - name: Extract REST API URL
+      #   run: |
+      #     rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out2.json)
+      #     echo "REST_API_URL=$rest_api_url" >> $GITHUB_ENV
+
+      # - name: print URL
+      #   run: echo $REST_API_URL
+
+      # - name: Microsoft Teams Webhook Message Bot
+      #   uses: myusufcse/microsoft-teams-message-bot@main
+      #   with:
+      #     webhook: ${{ secrets.MS_WEBHOOK_URL }}
+      #     message: |
+      #             The infra has been deployed
+      #             REST_API_URL - ${{env.REST_API_URL}}
+          
       - name: Extract REST API URL
         run: |
-          rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out2.json)
-          echo "REST_API_URL=$rest_api_url" >> $GITHUB_ENV
+          jq -r . out.json > out.txt
+          file_txt=$(<out.txt)
+          echo "REST_API_URL=$file_txt" >> $GITHUB_ENV
 
       - name: print URL
         run: echo $REST_API_URL
@@ -96,8 +113,6 @@ jobs:
         with:
           webhook: ${{ secrets.MS_WEBHOOK_URL }}
           message: |
-                  The infra has been deployed\n
-                  echo "REST_API_URL - ${{env.REST_API_URL}}"
-          
-          
+                  The infra has been deployed
+                  REST_API_URL - ${{env.REST_API_URL}}
 
