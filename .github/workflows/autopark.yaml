@@ -83,22 +83,7 @@ jobs:
           -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_LAMBDA }}" \
           -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_RDS }}"
 
-      # - name: Extract REST API URL
+
+      # - name: Send message to Teams
       #   run: |
-      #     rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out2.json)
-      #     echo "REST_API_URL=$rest_api_url" >> $GITHUB_ENV
-
-      # - name: print URL
-      #   run: echo $REST_API_URL
-
-      # - name: Microsoft Teams Webhook Message Bot
-      #   uses: myusufcse/microsoft-teams-message-bot@main
-      #   with:
-      #     webhook: ${{ secrets.MS_WEBHOOK_URL }}
-      #     message: |
-      #             The infra has been deployed
-      #             REST_API_URL - ${{env.REST_API_URL}}
-          
-      - name: Send file to Teams
-        run: |
-          curl -X POST -H "Content-Type: application/json" -d '{"text": "Terraform Output\nHere is the Terraform output file:\n```'$(cat out2.json)'```", "title": "Terraform Output", "summary": "Sending Terraform output file to Microsoft Teams"}' ${{ secrets.MS_WEBHOOK_URL }}
+      #     curl -H 'Content-Type: application/json' -d '{"text": "Hello World"}' ${{secrets.MS_WEBHOOK_URL}}

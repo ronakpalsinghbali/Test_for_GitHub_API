@@ -1,0 +1,16 @@
+Cloudwatch Logs ARN: [['arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-schedule-dev2'], ['arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-adhoc-dev2'], ['arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-start-vm-dev2'], ['arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-stop-vm-dev2']]
+Cloudwatch Logs Name: [['/aws/lambda/autopark-schedule-dev2'], ['/aws/lambda/autopark-adhoc-dev2'], ['/aws/lambda/autopark-start-vm-dev2'], ['/aws/lambda/autopark-stop-vm-dev2']]
+DB Instance Endpoint: ['autopark-dev2-test.crczj4ofrlvi.us-east-2.rds.amazonaws.com:5432']
+Event Rule ARN: ['', '', '', '']
+Event Rule Name:
+Function Name: [['autopark-schedule-dev2'], ['autopark-adhoc-dev2'], ['autopark-start-vm-dev2'], ['autopark-stop-vm-dev2']]
+Invoke ARN: [['arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:autopark-schedule-dev2/invocations'], ['arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:autopark-adhoc-dev2/invocations'], ['arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:autopark-start-vm-dev2/invocations'], ['arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:autopark-stop-vm-dev2/invocations']]
+Lambda ARN: ['arn:aws:lambda:us-east-2:889148926241:function:autopark-schedule-dev2', 'arn:aws:lambda:us-east-2:889148926241:function:autopark-adhoc-dev2', 'arn:aws:lambda:us-east-2:889148926241:function:autopark-start-vm-dev2', 'arn:aws:lambda:us-east-2:889148926241:function:autopark-stop-vm-dev2']
+REST API Invoke URL: https://zmw60vguj4.execute-api.us-east-2.amazonaws.com/rest-api-stage/schedule
+Secret ARN: arn:aws:secretsmanager:us-east-2:889148926241:secret:autopark-secret-manager-dev2-LtZsmg
+Secret ID: arn:aws:secretsmanager:us-east-2:889148926241:secret:autopark-secret-manager-dev2-LtZsmg
+Secret ID Version ID: arn:aws:secretsmanager:us-east-2:889148926241:secret:autopark-secret-manager-dev2-LtZsmg|terraform-20240426083150724000000008
+Secret Replica: [{'kms_key_id': 'arn of kms key in region specified', 'last_accessed_date': '', 'region': 'us-east-1', 'status': 'InProgress', 'status_message': ''}]
+Secret Tags All: {'Application': 'Test of AWS secrets Manager TF Template', 'ApplicationName': 'Autopark', 'Client': 'CEQ', 'Department': 'Product', 'EndDate': '31/12/2024', 'Environment': 'DEV2', 'Owner': 'Kumar Gaurav', 'ProjectName': 'Autopark', 'StartDate': '04/07/2023', 'Terraform': 'True'}
+Secret Version ID: terraform-20240426083150724000000008
+Version: [['3'], ['3'], ['3'], ['3']]
