@@ -97,7 +97,7 @@ jobs:
           webhook: ${{ secrets.MS_WEBHOOK_URL }}
           message: |
                   The infra has been deployed
-                  
+                  echo "REST_API_URL - ${{env.REST_API_URL}}"
           
           
 
