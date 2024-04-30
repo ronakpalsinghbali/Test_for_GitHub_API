@@ -86,8 +86,9 @@ jobs:
       - name: Set output for output
         id: Set_output
         run: |
-          json_content = $(cat out.json)
-          echo "OUTPUT_TF = $json_content" >> $GITHUB_OUTPUT
+          tf_output=$(<out.json)
+          echo "$tf_output"
+          echo "OUTPUT_TF = $tf_output" >> $GITHUB_OUTPUT
 
       - name: Microsoft Teams Webhook Message Bot
         uses: myusufcse/microsoft-teams-message-bot@main
