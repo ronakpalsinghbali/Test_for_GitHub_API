@@ -83,7 +83,7 @@ jobs:
           -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_LAMBDA }}" \
           -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_RDS }}"
 
-
-      # - name: Send message to Teams
-      #   run: |
-      #     curl -H 'Content-Type: application/json' -d '{"text": "Hello World"}' ${{secrets.MS_WEBHOOK_URL}}
+      - name: Run Python script
+        env:
+          WEBHOOK_URL: ${{ secrets.MS_WEBHOOK_URL }}
+        run: python msg.py
