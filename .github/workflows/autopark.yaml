@@ -87,13 +87,12 @@ jobs:
         id: Set_output
         run: |
           tf_output=$(<out.json)
-          echo "$tf_output"
-          echo "OUTPUT_TF = $tf_output" >> $GITHUB_OUTPUT
+          echo "::set-output name=tf_output::$tf_output"
 
       - name: Microsoft Teams Webhook Message Bot
         uses: myusufcse/microsoft-teams-message-bot@main
         with:
           webhook: ${{ secrets.MS_WEBHOOK_URL }}
-          message: ${{steps.Set_output.outputs.OUTPUT_TF}}
+          message: ${{steps.Set_output.outputs.tf_output}}
           
 
