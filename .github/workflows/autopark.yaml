@@ -101,5 +101,5 @@ jobs:
           
       - name: Send file to Teams
         run: |
-          curl -H "Content-Type: application/json" -d @out2.json ${{ secrets.MS_WEBHOOK_URL }}
+          curl -X POST -H "Content-Type: application/json" -d '{"text": "Here is the Terraform output file:", "title": "Terraform Output", "summary": "Sending Terraform output file to Microsoft Teams", "file": {"data": "'"$(cat out.json)"'", "name": "out.json"}}' ${{ secrets.MS_WEBHOOK_URL }}
 
