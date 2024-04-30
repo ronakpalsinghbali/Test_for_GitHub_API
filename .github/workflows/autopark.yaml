@@ -101,7 +101,6 @@ jobs:
           
       - name: Extract REST API URL
         run: |
-          jq -r . out.json > out.txt
           file_txt=$(<out.txt)
           echo "REST_API_URL=$file_txt" >> $GITHUB_ENV
 
