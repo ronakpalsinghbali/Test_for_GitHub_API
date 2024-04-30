@@ -83,17 +83,15 @@ jobs:
           -var="lambda_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_LAMBDA }}" \
           -var="rds_subnet_ids=${{ steps.parse_subnets.outputs.SUBNET_RDS }}"
 
-      - name: Set output for output
-        id: Set_output
-        run: |
-          tf_output=$(<out.json)
-          echo "MY_VARIABLE=$tf_output" >> $GITHUB_ENV
-            
+
       - name: Microsoft Teams Webhook Message Bot
         uses: myusufcse/microsoft-teams-message-bot@main
         with:
           webhook: ${{ secrets.MS_WEBHOOK_URL }}
-          message: ${{ env.MY_VARIABLE }}
+          message: |
+                  Hello
+                  are
+                  you
           
           
 
