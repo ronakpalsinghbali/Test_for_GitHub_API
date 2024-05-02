@@ -100,7 +100,7 @@ jobs:
         run: | 
           terraform plan -var-file="dev.tfvars" \
           -var="region=${{env.REGION}}" \
-          -var="cidr_block=${{steps.parse_values.outputs.VPC_CIDR_BLOCK}}" \
+          -var="cidr_block=${{env.VPC_CIDR_BLOCK}}" \
           -var="public_subnet_cidrs=${{steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS}}" \
           -var="private_subnet_cidrs=${{steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS}}" \
           -var="availability_zones=${{steps.parse_values.outputs.AVAILABILITY_ZONES}}" 
