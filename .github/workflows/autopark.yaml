@@ -113,7 +113,7 @@ jobs:
 
 
 
-
+  # cloudwatch_logs_names=$(jq -r '.cloudwatch_logs_name[]' out.json)
 
   Extracting:
     # needs: terraform
@@ -127,7 +127,8 @@ jobs:
         id: extract-from-output 
         run: |
           rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
-          cloudwatch_logs_names=$(jq -r '.cloudwatch_logs_name[]' out.json)
+          
+          cloudwatch_logs_names=$(jq -r '.cloudwatch_logs_name[][]' out.json)
 
           echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
           echo "CLOUDWATCH_LOGS_NAMES=$cloudwatch_logs_names" >> $GITHUB_OUTPUT
