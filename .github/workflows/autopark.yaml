@@ -132,11 +132,11 @@ jobs:
         run: |
           rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
           
-          cloudwatch_logs_names=$(jq -r '.cloudwatch_logs_name[][]' out.json)
+          
 
           echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
-          echo "CLOUDWATCH_LOGS_NAMES=$cloudwatch_logs_names" >> $GITHUB_OUTPUT
           
+
       - name: print URL
         run: echo $REST_API_URL
 
@@ -151,4 +151,4 @@ jobs:
           message: |
                   The infra has been deployed
                   REST_API_URL - ${{steps.extract-from-output.outputs.REST_API_URL}}
-                  CLOUDWATCH_LOGS_NAMES- ${{steps.extract-from-output.outputs.CLOUDWATCH_LOGS_NAMES}}
+                  
