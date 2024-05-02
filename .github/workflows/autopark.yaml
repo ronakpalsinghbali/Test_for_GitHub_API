@@ -48,62 +48,62 @@ env:
   AWS_SECRET_ACCESS_KEY_INPUT: ${{inputs.SECRET_ACCESS_KEY_ID}}
 
 jobs:
-  terraform:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Parse values
-        id: parse_values
-        run: |
-          echo "VPC_CIDR_BLOCK=\\\"$(echo ${{ env.VPC_CIDR_BLOCK }} | sed 's/,/\\",\\"/g')\\\"" >> $GITHUB_OUTPUT
-          echo "PUBLIC_SUBNET_CIDRS=[\\\"$(echo ${{ env.PUBLIC_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
-          echo "PRIVATE_SUBNET_CIDRS=[\\\"$(echo ${{ env.PRIVATE_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
-          echo "AVAILABILITY_ZONES=[\\\"$(echo ${{ env.AVAILABILITY_ZONES }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
+  # terraform:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Parse values
+  #       id: parse_values
+  #       run: |
+  #         echo "VPC_CIDR_BLOCK=\\\"$(echo ${{ env.VPC_CIDR_BLOCK }} | sed 's/,/\\",\\"/g')\\\"" >> $GITHUB_OUTPUT
+  #         echo "PUBLIC_SUBNET_CIDRS=[\\\"$(echo ${{ env.PUBLIC_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
+  #         echo "PRIVATE_SUBNET_CIDRS=[\\\"$(echo ${{ env.PRIVATE_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
+  #         echo "AVAILABILITY_ZONES=[\\\"$(echo ${{ env.AVAILABILITY_ZONES }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
 
-      - name: Printing the parsed values
-        id: parsed-printing
-        run: |
-          echo VPC_CIDR_BLOCK=${{ steps.parse_values.outputs.VPC_CIDR_BLOCK }}
-          echo PUBLIC_SUBNET_CIDRS=${{ steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS }}
-          echo PRIVATE_SUBNET_CIDRS=${{ steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS }}
-          echo AVAILABILITY_ZONES=${{ steps.parse_values.outputs.AVAILABILITY_ZONES }}
+  #     - name: Printing the parsed values
+  #       id: parsed-printing
+  #       run: |
+  #         echo VPC_CIDR_BLOCK=${{ steps.parse_values.outputs.VPC_CIDR_BLOCK }}
+  #         echo PUBLIC_SUBNET_CIDRS=${{ steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS }}
+  #         echo PRIVATE_SUBNET_CIDRS=${{ steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS }}
+  #         echo AVAILABILITY_ZONES=${{ steps.parse_values.outputs.AVAILABILITY_ZONES }}
 
-      - name: Configure AWS Credentials for DEV ENV
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
-          aws-region: ${{env.REGION}}
+  #     - name: Configure AWS Credentials for DEV ENV
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
+  #         aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
+  #         aws-region: ${{env.REGION}}
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.1.0
+  #     - name: Install Terraform
+  #       uses: hashicorp/setup-terraform@v3
+  #       with:
+  #         terraform_version: 1.1.0
 
-      # - name: Run Checkov action
-      #   id: checkov
-      #   uses: bridgecrewio/checkov-action@master
-      #   with:
-      #     directory: .
-      #     framework: terraform
-      #     download_external_modules: true
-      #     output_format: sarif
-      #     output_file_path: console,checkov_report/results.sarif
-      #     github_pat: ${{ secrets.TOKEN_PAT }}
+  #     # - name: Run Checkov action
+  #     #   id: checkov
+  #     #   uses: bridgecrewio/checkov-action@master
+  #     #   with:
+  #     #     directory: .
+  #     #     framework: terraform
+  #     #     download_external_modules: true
+  #     #     output_format: sarif
+  #     #     output_file_path: console,checkov_report/results.sarif
+  #     #     github_pat: ${{ secrets.TOKEN_PAT }}
         
-      - name: Initialize Terraform
-        run: terraform init
+  #     - name: Initialize Terraform
+  #       run: terraform init
 
-      - name: Plan Terraform
-        run: | 
-          terraform plan -var-file="dev.tfvars" \
-          -var="region=${{env.REGION}}" \
-          -var="cidr_block=${{env.VPC_CIDR_BLOCK}}" \
-          -var="public_subnet_cidrs=${{steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS}}" \
-          -var="private_subnet_cidrs=${{steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS}}" \
-          -var="availability_zones=${{steps.parse_values.outputs.AVAILABILITY_ZONES}}" 
+  #     - name: Plan Terraform
+  #       run: | 
+  #         terraform plan -var-file="dev.tfvars" \
+  #         -var="region=${{env.REGION}}" \
+  #         -var="cidr_block=${{env.VPC_CIDR_BLOCK}}" \
+  #         -var="public_subnet_cidrs=${{steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS}}" \
+  #         -var="private_subnet_cidrs=${{steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS}}" \
+  #         -var="availability_zones=${{steps.parse_values.outputs.AVAILABILITY_ZONES}}" 
           
 
 
@@ -116,7 +116,7 @@ jobs:
 
 
   Extracting:
-    needs: terraform
+    # needs: terraform
     runs-on: ubuntu-latest
     steps:
 
@@ -134,7 +134,7 @@ jobs:
 
       - name: Send message to Teams
         run: |
-          curl -H 'Content-Type: application/json' -d '{"text": "$REST_API_URL"}' ${{secrets.MS_WEBHOOK_URL}}
+          curl -H 'Content-Type: application/json' -d '{"text": "${{steps.extract-from-output.outputs.REST_API_URL}}"}' ${{secrets.MS_WEBHOOK_URL}}
 
       - name: Microsoft Teams Webhook Message Bot
         uses: myusufcse/microsoft-teams-message-bot@main
