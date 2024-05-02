@@ -114,6 +114,10 @@ jobs:
 
 
   # cloudwatch_logs_names=$(jq -r '.cloudwatch_logs_name[]' out.json)
+  # curl -H 'Content-Type: application/json' -d '{
+  #   "text": "REST_API_URL: ${{steps.extract-from-output.outputs.REST_API_URL}} \nCloudWatch Logs Names: ${{steps.extract-from-output.outputs.CLOUDWATCH_LOGS_NAMES}}"
+  # }' ${{ secrets.MS_WEBHOOK_URL }}
+
 
   Extracting:
     # needs: terraform
@@ -132,14 +136,13 @@ jobs:
 
           echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
           echo "CLOUDWATCH_LOGS_NAMES=$cloudwatch_logs_names" >> $GITHUB_OUTPUT
+          
       - name: print URL
         run: echo $REST_API_URL
 
       - name: Send message to Teams
         run: |
-          curl -H 'Content-Type: application/json' -d '{
-                  "text": "REST_API_URL: ${{steps.extract-from-output.outputs.REST_API_URL}} \nCloudWatch Logs Names: ${{steps.extract-from-output.outputs.CLOUDWATCH_LOGS_NAMES}}"
-                }' ${{ secrets.MS_WEBHOOK_URL }}
+          curl -H 'Content-Type: application/json' -d '@out.json' ${{ secrets.MS_WEBHOOK_URL }}
 
       - name: Microsoft Teams Webhook Message Bot
         uses: myusufcse/microsoft-teams-message-bot@main
