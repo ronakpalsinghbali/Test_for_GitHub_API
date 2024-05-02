@@ -126,7 +126,7 @@ jobs:
       - name: Send message to Teams
         run: |
           curl -H 'Content-Type: application/json' -d '{
-          "text": "The infra has been deployed \nREST_API_URL: ${{steps.extract-from-output.outputs.REST_API_URL}}}
+          "text": "The infra has been deployed \nREST_API_URL: ${{steps.extract-from-output.outputs.REST_API_URL}}"}
 
       - name: Send message to teams via py script
         run: |
