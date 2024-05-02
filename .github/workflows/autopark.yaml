@@ -132,6 +132,10 @@ jobs:
       - name: print URL
         run: echo $REST_API_URL
 
+      - name: Send message to Teams
+        run: |
+          curl -H 'Content-Type: application/json' -d '{"text": "$REST_API_URL"}' ${{secrets.MS_WEBHOOK_URL}}
+
       - name: Microsoft Teams Webhook Message Bot
         uses: myusufcse/microsoft-teams-message-bot@main
         with:
