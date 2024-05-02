@@ -120,6 +120,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Extract REST API URL
         id: extract-from-output 
         run: |
