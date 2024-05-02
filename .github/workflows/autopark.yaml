@@ -54,7 +54,7 @@ jobs:
       - name: Parse values
         id: parse_values
         run: |
-          echo "VPC_CIDR_BLOCK=[\\\"$(echo ${{ env.VPC_CIDR_BLOCK }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
+          echo "VPC_CIDR_BLOCK=\\\"$(echo ${{ env.VPC_CIDR_BLOCK }} | sed 's/,/\\",\\"/g')\\\"" >> $GITHUB_OUTPUT
           echo "PUBLIC_SUBNET_CIDRS=[\\\"$(echo ${{ env.PUBLIC_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
           echo "PRIVATE_SUBNET_CIDRS=[\\\"$(echo ${{ env.PRIVATE_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
           echo "AVAILABILITY_ZONES=[\\\"$(echo ${{ env.AVAILABILITY_ZONES }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
