@@ -130,7 +130,7 @@ jobs:
 
       - name: Send message to Teams
         run: |
-          curl -H 'Content-Type: application/json' -d 'REST_API_URL - ${{steps.extract-from-output.outputs.REST_API_URL}}' ${{ secrets.MS_WEBHOOK_URL }}
+          curl -H 'Content-Type: application/json' -d '{"text": "REST_API_URL: ${{steps.extract-from-output.outputs.REST_API_URL}}"}' ${{secrets.MS_WEBHOOK_URL}}
 
       - name: Send message to teams via py script
         run: |
