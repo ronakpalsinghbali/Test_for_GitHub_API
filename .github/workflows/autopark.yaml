@@ -123,7 +123,7 @@ jobs:
       - name: Extract REST API URL
         id: extract-from-output 
         run: |
-          rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out2.json)
+          rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
           echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
 
       - name: print URL
