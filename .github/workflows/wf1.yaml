@@ -34,3 +34,6 @@ jobs:
       env:
         INPUT_VARIABLE1: ${{ inputs.VARIABLE1 }}
         INPUT_VARIABLE2: ${{ inputs.VARIABLE2 }}
+
+    - name: Print file
+      run: cat new.yaml
