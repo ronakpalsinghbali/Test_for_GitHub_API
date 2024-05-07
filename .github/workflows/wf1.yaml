@@ -1,0 +1,36 @@
+name: Render YAML Template
+
+on:
+  workflow_dispatch:
+    inputs:
+      VARIABLE1:
+        description: VARIABLE1
+        type: string
+        required: true
+
+      VARIABLE2:
+        description: VARIABLE2
+        type: string
+        required: true
+
+jobs:
+  render_yaml_template:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.0'
+
+    - name: Install dependencies
+      run: pip install jinja2 pyyaml
+
+    - name: Execute script
+      run: python3 script.py
+      env:
+        INPUT_VARIABLE1: ${{ inputs.VARIABLE1 }}
+        INPUT_VARIABLE2: ${{ inputs.VARIABLE2 }}
