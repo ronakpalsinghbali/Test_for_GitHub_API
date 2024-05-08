@@ -118,14 +118,21 @@ jobs:
           
 
 
-  # Extracting:
-    # # needs: terraform
-    # runs-on: ubuntu-latest
-    # steps:
+  Extracting:
+    # needs: terraform
+    runs-on: ubuntu-latest
+    steps:
 
-    #   - name: Checkout code
-    #     uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Setting Output
+        id: setting-output 
+        run: |
+          OUTPUT_DATA=$(python3 ./print-key-value.py)
+          echo "OUTPUT_DATA=$output_data" >> $GITHUB_OUTPUT
+
+          
       # - name: Extract REST API URL
       #   id: extract-from-output 
       #   run: |
@@ -153,4 +160,6 @@ jobs:
       #   run: |
       #     python3 ./type1.py
       #     python3 ./type2.py
+
+
       # REST_API_URL: ${{steps.extract-from-output.outputs.REST_API_URL}}  
