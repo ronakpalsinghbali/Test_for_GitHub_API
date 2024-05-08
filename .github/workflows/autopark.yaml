@@ -126,38 +126,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setting Output
-        id: setting-output 
+      - name: Extract from output
+        id: extract-from-output 
         run: |
-          OUTPUT_DATA=$(python3 ./print-key-value.py)
-          echo "ENV_OUTPUT_DATA=$OUTPUT_DATA" >> $GITHUB_OUTPUT
-          
+          rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
+          echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
+
       - name: print URL
-        run: echo $ENV_OUTPUT_DATA
-     
+        run: echo $REST_API_URL
+
+      - name: Send message to Teams
+        run: |
+          curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl  REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}"}' ${{secrets.MS_WEBHOOK_URL}}
 
 
-      # - name: Extract REST API URL
-      #   id: extract-from-output 
-      #   run: |
-      #     rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
-      #     echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
-
-      # - name: print URL
-      #   run: echo $REST_API_URL
-
-      # - name: Send message to Teams
-      #   run: |
-      #     curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl"}' ${{secrets.MS_WEBHOOK_URL}}
-
-
-      # - name: Sending message to teams
-      #   uses: neonidian/teams-notify-build-status@v3
-      #   with:
-      #       webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
-      #       message: |
-      #         Infra has been deployed !!! - from action
-              
+      - name: Sending message to teams
+        uses: neonidian/teams-notify-build-status@v3
+        with:
+            webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
+            message: |
+              Infra has been deployed !!! - from action
+              REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}
 
 
       # - name: Send message to teams via py script
@@ -165,5 +154,4 @@ jobs:
       #     python3 ./type1.py
       #     python3 ./type2.py
 
-
-      # REST_API_URL: ${{steps.extract-from-output.outputs.REST_API_URL}}  
+ 
