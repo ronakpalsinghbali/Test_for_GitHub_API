@@ -129,7 +129,7 @@ jobs:
       - name: Setting Output
         id: setting-output 
         run: |
-          OUTPUT_DATA=$(python3 ./type3.py)
+          OUTPUT_DATA=$(python3 ./print-key-value.py)
           echo "ENV_OUTPUT_DATA=$OUTPUT_DATA" >> $GITHUB_OUTPUT
           
       - name: print URL
