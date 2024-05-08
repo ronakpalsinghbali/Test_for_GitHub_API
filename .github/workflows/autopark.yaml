@@ -104,36 +104,53 @@ jobs:
           -var="public_subnet_cidrs=${{steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS}}" \
           -var="private_subnet_cidrs=${{steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS}}" \
           -var="availability_zones=${{steps.parse_values.outputs.AVAILABILITY_ZONES}}" 
-          
-
-
-  Extracting:
-    # needs: terraform
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Extract REST API URL
-        id: extract-from-output 
-        run: |
-          rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
-          
-          
-
-          echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
-          
-
-      - name: print URL
-        run: echo $REST_API_URL
 
       - name: Send message to Teams
         run: |
-          curl -H 'Content-Type: application/json' -d '{"text": "REST_API_URL: ${{steps.extract-from-output.outputs.REST_API_URL}}"}' ${{secrets.MS_WEBHOOK_URL}}
+          curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl"}' ${{secrets.MS_WEBHOOK_URL}}
 
-      - name: Send message to teams via py script
-        run: |
-          python3 ./type1.py
-          python3 ./type2.py
-                  
+      - name: Sending message to teams
+        uses: neonidian/teams-notify-build-status@v3
+        with:
+            webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
+            message: |
+              Infra has been deployed !!! - from action
+          
+
+
+  # Extracting:
+    # # needs: terraform
+    # runs-on: ubuntu-latest
+    # steps:
+
+    #   - name: Checkout code
+    #     uses: actions/checkout@v4
+
+      # - name: Extract REST API URL
+      #   id: extract-from-output 
+      #   run: |
+      #     rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
+      #     echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
+
+      # - name: print URL
+      #   run: echo $REST_API_URL
+
+      # - name: Send message to Teams
+      #   run: |
+      #     curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl"}' ${{secrets.MS_WEBHOOK_URL}}
+
+
+      # - name: Sending message to teams
+      #   uses: neonidian/teams-notify-build-status@v3
+      #   with:
+      #       webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
+      #       message: |
+      #         Infra has been deployed !!! - from action
+              
+
+
+      # - name: Send message to teams via py script
+      #   run: |
+      #     python3 ./type1.py
+      #     python3 ./type2.py
+      # REST_API_URL: ${{steps.extract-from-output.outputs.REST_API_URL}}  
