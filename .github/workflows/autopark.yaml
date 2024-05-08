@@ -130,12 +130,13 @@ jobs:
         id: setting-output 
         run: |
           OUTPUT_DATA=$(python3 ./print-key-value.py)
-          echo "Output data: $OUTPUT_DATA"
+          echo "ENV_OUTPUT_DATA=$OUTPUT_DATA" >> $GITHUB_OUTPUT
           
-      
+      - name: print URL
+        run: echo $ENV_OUTPUT_DATA
      
 
-# echo "OUTPUT_DATA=$output_data" >> $GITHUB_OUTPUT
+
       # - name: Extract REST API URL
       #   id: extract-from-output 
       #   run: |
