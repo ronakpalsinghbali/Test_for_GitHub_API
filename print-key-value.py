@@ -15,7 +15,6 @@
 #         print(f"{key}: {values}")
 
 
-
 import os
 import json
 
@@ -29,8 +28,9 @@ output_list = []
 # Concatenate all key-value pairs into a single string
 for key, value in json_data.items():
     if isinstance(value, list):
-        for v in value:
-            output_list.append(f"{key}: {v}")
+        # Convert list items to strings
+        value_str = ", ".join(map(str, value))
+        output_list.append(f"{key}: {value_str}")
     else:
         output_list.append(f"{key}: {value}")
 
@@ -39,3 +39,4 @@ output_string = "\n".join(output_list)
 
 # Print the concatenated data
 print(output_string)
+
