@@ -7,7 +7,7 @@ on:
         description: REGION
         default: "us-east-1"
         type: string
-        required: false
+        required: true
 
       VPC_CIDR_BLOCK:
         description: VPC_CIDR_BLOCK
