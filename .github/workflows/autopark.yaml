@@ -5,7 +5,7 @@ on:
     inputs:
       REGION:
         description: REGION
-        default: "us-east-1"
+        # default: "us-east-1"
         type: string
         required: true
 
