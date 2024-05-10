@@ -5,8 +5,9 @@ on:
     inputs:
       REGION:
         description: REGION
+        default: "us-east-1"
         type: string
-        required: true
+        required: false
 
       VPC_CIDR_BLOCK:
         description: VPC_CIDR_BLOCK
@@ -135,23 +136,24 @@ jobs:
       - name: print URL
         run: echo $REST_API_URL
 
-      - name: Send message to Teams
-        run: |
-          curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl  REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}"}' ${{secrets.MS_WEBHOOK_URL}}
+      # - name: Send message to Teams
+      #   run: |
+      #     curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl  REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}"}' ${{secrets.MS_WEBHOOK_URL}}
 
 
-      - name: Sending message to teams
-        uses: neonidian/teams-notify-build-status@v3
-        with:
-            webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
-            message: |
-              Infra has been deployed !!! - from action
-              REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}
+      # - name: Sending message to teams
+      #   uses: neonidian/teams-notify-build-status@v3
+      #   with:
+      #       webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
+      #       message: |
+      #         Infra has been deployed !!! - from action
+      #         REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}
 
 
       # - name: Send message to teams via py script
       #   run: |
       #     python3 ./type1.py
       #     python3 ./type2.py
+          
 
  
