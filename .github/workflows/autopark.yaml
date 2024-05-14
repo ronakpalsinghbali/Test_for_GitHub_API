@@ -152,9 +152,10 @@ jobs:
 
 
       - name: Send message to teams via py script
-        run: |
-          python3 ./type1.py
-          
+        run: python3 ./type1.py
+        env:
+          WEBHOOK_URL: ${{ secrets.MS_WEBHOOK_URL }}
+
           
           
 # python3 ./type2.py
