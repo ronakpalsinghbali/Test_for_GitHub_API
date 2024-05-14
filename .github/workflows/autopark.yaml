@@ -141,13 +141,14 @@ jobs:
       #     curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl  REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}"}' ${{secrets.MS_WEBHOOK_URL}}
 
 
-      # - name: Sending message to teams
-      #   uses: neonidian/teams-notify-build-status@v3
-      #   with:
-      #       webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
-      #       message: |
-      #         Infra has been deployed !!! - from action
-      #         REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}
+      - name: Sending message to teams
+        uses: neonidian/teams-notify-build-status@v3
+        with:
+            webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
+            message: |
+              Infra has been deployed !!! - from action
+
+# REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}
 
 
       - name: Send message to teams via py script
