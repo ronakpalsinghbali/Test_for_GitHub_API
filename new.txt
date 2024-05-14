@@ -59,3 +59,20 @@ version: ['3']
 version: ['3']
 version: ['3']
 version: ['3']
+
+
+
+TYPE 4
+User_Pool_Client_ID: 5nu53b6dj2f5c8fpd9gb8fr
+User_Pool_Client_secret: kgfqi09us6nja9611n7qm9rvinlu23u053b1jnrfvect3jn1
+User_Pool_Domain: qrest-test-domain
+cloudwatch_logs_arn: ['arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/qrest-schedule-dev2']
+cloudwatch_logs_name: ['/aws/lambda/qrest-schedule-dev2']
+db_instance_endpoint: qrest-database-dev2.crczj4ofrlvi.us-east-2.rds.amazonaws.com:5432
+event_rule_arn: 
+event_rule_name: 
+fuction_name: ['qrest-schedule-dev2']
+invoke_arn: ['arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:qrest-schedule-dev2/invocations']
+lambda_arn: arn:aws:lambda:us-east-2:889148926241:function:qrest-schedule-dev2
+rest-api-invoke-url: https://mxqkmt65ea.execute-api.us-east-2.amazonaws.com/rest-api-s/schedule
+version: ['1']

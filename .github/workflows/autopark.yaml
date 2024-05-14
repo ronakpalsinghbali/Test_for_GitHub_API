@@ -78,10 +78,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.1.0
+      # - name: Install Terraform
+      #   uses: hashicorp/setup-terraform@v3
+      #   with:
+      #     terraform_version: 1.1.0
 
       # - name: Run Checkov action
       #   id: checkov
@@ -94,28 +94,28 @@ jobs:
       #     output_file_path: console,checkov_report/results.sarif
       #     github_pat: ${{ secrets.TOKEN_PAT }}
         
-      - name: Initialize Terraform
-        run: terraform init
+      # - name: Initialize Terraform
+      #   run: terraform init
 
-      - name: Plan Terraform
-        run: | 
-          terraform plan -var-file="dev.tfvars" \
-          -var="region=${{env.REGION}}" \
-          -var="cidr_block=${{env.VPC_CIDR_BLOCK}}" \
-          -var="public_subnet_cidrs=${{steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS}}" \
-          -var="private_subnet_cidrs=${{steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS}}" \
-          -var="availability_zones=${{steps.parse_values.outputs.AVAILABILITY_ZONES}}" 
+      # - name: Plan Terraform
+      #   run: | 
+      #     terraform plan -var-file="dev.tfvars" \
+      #     -var="region=${{env.REGION}}" \
+      #     -var="cidr_block=${{env.VPC_CIDR_BLOCK}}" \
+      #     -var="public_subnet_cidrs=${{steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS}}" \
+      #     -var="private_subnet_cidrs=${{steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS}}" \
+      # #     -var="availability_zones=${{steps.parse_values.outputs.AVAILABILITY_ZONES}}" 
 
-      - name: Send message to Teams
-        run: |
-          curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl"}' ${{secrets.MS_WEBHOOK_URL}}
+      # - name: Send message to Teams
+      #   run: |
+      #     curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl"}' ${{secrets.MS_WEBHOOK_URL}}
 
-      - name: Sending message to teams
-        uses: neonidian/teams-notify-build-status@v3
-        with:
-            webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
-            message: |
-              Infra has been deployed !!! - from action
+      # - name: Sending message to teams
+      #   uses: neonidian/teams-notify-build-status@v3
+      #   with:
+      #       webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
+      #       message: |
+      #         Infra has been deployed !!! - from action
           
 
 
@@ -150,10 +150,13 @@ jobs:
       #         REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}
 
 
-      # - name: Send message to teams via py script
-      #   run: |
-      #     python3 ./type1.py
-      #     python3 ./type2.py
+      - name: Send message to teams via py script
+        run: |
+          python3 ./type1.py
+          
+          
+          
+# python3 ./type2.py
           
 
  

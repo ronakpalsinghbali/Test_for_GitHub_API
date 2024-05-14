@@ -1,62 +1,305 @@
 {
-    "cloudwatch_logs_arn": [
-      ["arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-schedule-dev2"],
-      ["arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-adhoc-dev2"],
-      ["arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-start-vm-dev2"],
-      ["arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/autopark-stop-vm-dev2"]
+  "User_Pool_Client_ID": {
+    "sensitive": false,
+    "type": "string",
+    "value": "5nu53b6dj2f5c8fpd9gb8frnoi"
+  },
+  "User_Pool_Client_secret": {
+    "sensitive": true,
+    "type": "string",
+    "value": "kgfqi09us6nja9611n7qm9rvinlu23u053b1jnrfvect3jn1t5t"
+  },
+  "User_Pool_Domain": {
+    "sensitive": false,
+    "type": "string",
+    "value": "qrest-test-domain-dev2"
+  },
+  "cloudwatch_logs_arn": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ]
+      ]
     ],
-    "cloudwatch_logs_name": [
-      ["/aws/lambda/autopark-schedule-dev2"],
-      ["/aws/lambda/autopark-adhoc-dev2"],
-      ["/aws/lambda/autopark-start-vm-dev2"],
-      ["/aws/lambda/autopark-stop-vm-dev2"]
+    "value": [
+      [
+        "arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/qrest-schedule-dev2"
+      ],
+      [
+        "arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/qrest-adhoc-dev2"
+      ],
+      [
+        "arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/qrest-start-vm-dev2"
+      ],
+      [
+        "arn:aws:logs:us-east-2:889148926241:log-group:/aws/lambda/qrest-stop-vm-dev2"
+      ]
+    ]
+  },
+  "cloudwatch_logs_name": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ]
+      ]
     ],
-    "db_instance_endpoint": ["autopark-dev2-test.crczj4ofrlvi.us-east-2.rds.amazonaws.com:5432"],
-    "event_rule_arn": ["", "", "", ""],
-    "event_rule_name": "",
-    "function_name": [
-      ["autopark-schedule-dev2"],
-      ["autopark-adhoc-dev2"],
-      ["autopark-start-vm-dev2"],
-      ["autopark-stop-vm-dev2"]
+    "value": [
+      [
+        "/aws/lambda/qrest-schedule-dev2"
+      ],
+      [
+        "/aws/lambda/qrest-adhoc-dev2"
+      ],
+      [
+        "/aws/lambda/qrest-start-vm-dev2"
+      ],
+      [
+        "/aws/lambda/qrest-stop-vm-dev2"
+      ]
+    ]
+  },
+  "db_instance_endpoint": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
     ],
-    "invoke_arn": [
-      ["arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:autopark-schedule-dev2/invocations"],
-      ["arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:autopark-adhoc-dev2/invocations"],
-      ["arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:autopark-start-vm-dev2/invocations"],
-      ["arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:autopark-stop-vm-dev2/invocations"]
+    "value": [
+      "qrest-database-dev2.crczj4ofrlvi.us-east-2.rds.amazonaws.com:5432"
+    ]
+  },
+  "event_rule_arn": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string",
+        "string",
+        "string"
+      ]
     ],
-    "lambda_arn": [
-      "arn:aws:lambda:us-east-2:889148926241:function:autopark-schedule-dev2",
-      "arn:aws:lambda:us-east-2:889148926241:function:autopark-adhoc-dev2",
-      "arn:aws:lambda:us-east-2:889148926241:function:autopark-start-vm-dev2",
-      "arn:aws:lambda:us-east-2:889148926241:function:autopark-stop-vm-dev2"
+    "value": [
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "event_rule_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": ""
+  },
+  "fuction_name": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ]
+      ]
     ],
-    "rest-api-invoke-url": "https://zmw60vguj4.execute-api.us-east-2.amazonaws.com/rest-api-stage/schedule",
-    "secret_arn": "arn:aws:secretsmanager:us-east-2:889148926241:secret:autopark-secret-manager-dev2-LtZsmg",
-    "secret_id": "arn:aws:secretsmanager:us-east-2:889148926241:secret:autopark-secret-manager-dev2-LtZsmg",
-    "secret_id_version_id": "arn:aws:secretsmanager:us-east-2:889148926241:secret:autopark-secret-manager-dev2-LtZsmg|terraform-20240426083150724000000008",
-    "secret_replica": [
-      {
-        "kms_key_id": "arn of kms key in region specified",
-        "last_accessed_date": "",
-        "region": "us-east-1",
-        "status": "InProgress",
-        "status_message": ""
-      }
+    "value": [
+      [
+        "qrest-schedule-dev2"
+      ],
+      [
+        "qrest-adhoc-dev2"
+      ],
+      [
+        "qrest-start-vm-dev2"
+      ],
+      [
+        "qrest-stop-vm-dev2"
+      ]
+    ]
+  },
+  "invoke_arn": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ]
+      ]
     ],
-    "secret_tags_all": {
-      "Application": "Test of AWS secrets Manager TF Template",
-      "ApplicationName": "Autopark",
-      "Client": "CEQ",
-      "Department": "Product",
-      "EndDate": "31/12/2024",
-      "Environment": "DEV2",
-      "Owner": "Kumar Gaurav",
-      "ProjectName": "Autopark",
-      "StartDate": "04/07/2023",
-      "Terraform": "True"
-    },
-    "secret_version_id": "terraform-20240426083150724000000008",
-    "version": [["3"], ["3"], ["3"], ["3"]]
+    "value": [
+      [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:qrest-schedule-dev2/invocations"
+      ],
+      [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:qrest-adhoc-dev2/invocations"
+      ],
+      [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:qrest-start-vm-dev2/invocations"
+      ],
+      [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:889148926241:function:qrest-stop-vm-dev2/invocations"
+      ]
+    ]
+  },
+  "lambda_arn": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string",
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "arn:aws:lambda:us-east-2:889148926241:function:qrest-schedule-dev2",
+      "arn:aws:lambda:us-east-2:889148926241:function:qrest-adhoc-dev2",
+      "arn:aws:lambda:us-east-2:889148926241:function:qrest-start-vm-dev2",
+      "arn:aws:lambda:us-east-2:889148926241:function:qrest-stop-vm-dev2"
+    ]
+  },
+  "rest-api-invoke-url": {
+    "sensitive": false,
+    "type": "string",
+    "value": "https://mxqkmt65ea.execute-api.us-east-2.amazonaws.com/rest-api-stage/schedule"
+  },
+  "version": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ],
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "1"
+      ],
+      [
+        "1"
+      ],
+      [
+        "1"
+      ],
+      [
+        "1"
+      ]
+    ]
   }
+}
