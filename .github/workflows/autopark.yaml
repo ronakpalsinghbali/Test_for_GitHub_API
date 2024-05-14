@@ -127,14 +127,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract from output
-        id: extract-from-output 
-        run: |
-          rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
-          echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
+      # - name: Extract from output
+      #   id: extract-from-output 
+      #   run: |
+      #     rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
+      #     echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
 
-      - name: print URL
-        run: echo $REST_API_URL
+      # - name: print URL
+      #   run: echo $REST_API_URL
 
       # - name: Send message to Teams
       #   run: |
