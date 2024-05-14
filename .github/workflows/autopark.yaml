@@ -129,9 +129,13 @@ jobs:
 
       - name: Send message to teams via py script
         run: | 
-          python3 ./print-key-value.py
+          python3 ./print-key-value.py > toSNOW.txt
         env:
           WEBHOOK_URL: ${{inputs.REGION}}
+
+      - name: Print value for SNOW
+        run: |
+          cat toSNOW.txt
 
 
       # - name: Extract from output
