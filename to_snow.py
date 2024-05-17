@@ -1,11 +1,11 @@
 import json
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 
 # # Load environment variables from .env file
-dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file.env')
-load_dotenv(dotenv_path)
+# dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file.env')
+# load_dotenv(dotenv_path)
 
 # Load region from environment variable
 REGION = os.getenv('REGION')
