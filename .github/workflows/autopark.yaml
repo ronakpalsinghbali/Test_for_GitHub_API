@@ -49,34 +49,34 @@ env:
   AWS_SECRET_ACCESS_KEY_INPUT: ${{inputs.SECRET_ACCESS_KEY_ID}}
 
 jobs:
-  terraform:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Parse values
-        id: parse_values
-        run: |
-          echo "VPC_CIDR_BLOCK=\\\"$(echo ${{ env.VPC_CIDR_BLOCK }} | sed 's/,/\\",\\"/g')\\\"" >> $GITHUB_OUTPUT
-          echo "PUBLIC_SUBNET_CIDRS=[\\\"$(echo ${{ env.PUBLIC_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
-          echo "PRIVATE_SUBNET_CIDRS=[\\\"$(echo ${{ env.PRIVATE_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
-          echo "AVAILABILITY_ZONES=[\\\"$(echo ${{ env.AVAILABILITY_ZONES }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
+  # terraform:
+    # runs-on: ubuntu-latest
+    # steps:
+      # - name: Parse values
+      #   id: parse_values
+      #   run: |
+      #     echo "VPC_CIDR_BLOCK=\\\"$(echo ${{ env.VPC_CIDR_BLOCK }} | sed 's/,/\\",\\"/g')\\\"" >> $GITHUB_OUTPUT
+      #     echo "PUBLIC_SUBNET_CIDRS=[\\\"$(echo ${{ env.PUBLIC_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
+      #     echo "PRIVATE_SUBNET_CIDRS=[\\\"$(echo ${{ env.PRIVATE_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
+      #     echo "AVAILABILITY_ZONES=[\\\"$(echo ${{ env.AVAILABILITY_ZONES }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
 
-      - name: Printing the parsed values
-        id: parsed-printing
-        run: |
-          echo VPC_CIDR_BLOCK=${{ steps.parse_values.outputs.VPC_CIDR_BLOCK }}
-          echo PUBLIC_SUBNET_CIDRS=${{ steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS }}
-          echo PRIVATE_SUBNET_CIDRS=${{ steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS }}
-          echo AVAILABILITY_ZONES=${{ steps.parse_values.outputs.AVAILABILITY_ZONES }}
+      # - name: Printing the parsed values
+      #   id: parsed-printing
+      #   run: |
+      #     echo VPC_CIDR_BLOCK=${{ steps.parse_values.outputs.VPC_CIDR_BLOCK }}
+      #     echo PUBLIC_SUBNET_CIDRS=${{ steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS }}
+      #     echo PRIVATE_SUBNET_CIDRS=${{ steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS }}
+      #     echo AVAILABILITY_ZONES=${{ steps.parse_values.outputs.AVAILABILITY_ZONES }}
 
-      - name: Configure AWS Credentials for DEV ENV
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
-          aws-region: ${{env.REGION}}
+      # - name: Configure AWS Credentials for DEV ENV
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
+      #     aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
+      #     aws-region: ${{env.REGION}}
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # - name: Checkout code
+      #   uses: actions/checkout@v4
 
       # - name: Install Terraform
       #   uses: hashicorp/setup-terraform@v3
@@ -127,9 +127,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Send message to teams via py script
+      - name: Send message by py script
         run: | 
-          python3 ./print-key-value.py > toSNOW.txt
+          python3 ./to_snow.py > toSNOW.txt
         env:
           WEBHOOK_URL: ${{inputs.REGION}}
 
