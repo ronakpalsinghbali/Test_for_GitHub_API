@@ -127,31 +127,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Upload Terraform Output
-        uses: actions/upload-artifact@v2
-        with:
-          name: terraform-output-dev-infra
-          path: terraform-output-dev-infra.json
+      # - name: Upload Terraform Output
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: terraform-output-dev-infra
+      #     path: terraform-output-dev-infra.json
 
-  next-job:
-    runs-on: ubuntu-latest
-    needs: Extracting
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # next-job:
+  #   runs-on: ubuntu-latest
+  #   needs: Extracting
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Download Terraform Output
-        uses: actions/download-artifact@v2
-        with:
-          name: terraform-output-dev-infra  
-          path: ./artifact  
+  #     - name: Download Terraform Output
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: terraform-output-dev-infra  
+  #         path: ./artifact  
         
       - name: Send message by py script
         run: | 
-          python3 ./to_snow.py > toSNOW.txt
+          python3 ./tosnow-final.py > toSNOW.txt
         env:
           REGION: ${{inputs.REGION}}
-          WEBHOOK_URL: "https://webhook.site/06011c75-78f5-476e-8a19-acc62bb10845"
+          TOKEN_URL: 'https://cloudeqincdemo1.service-now.com/oauth_token.do'
+          GRANT_TYPE: 'password'
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET}}
+          CLIENT_ID: ${{ secrets.CLIENT_ID}}
+          SNOW_USERNAME: 'AutoparkWebservices'
+          SNOW_PASSWORD: 'Autopark@120'
+          SNOW_URL: 'https://cloudeqincdemo1.service-now.com/api/x_ceq_hibernate_cl/renaissance/Renaissance_AWS_Status'
 
       - name: Print value for SNOW
         run: |
@@ -192,5 +198,3 @@ jobs:
           
 
           
-
- 

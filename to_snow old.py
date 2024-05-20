@@ -11,7 +11,7 @@
 # REGION = os.getenv('REGION')
 
 # # Read the JSON file
-# with open('out.json', 'r') as f:
+# with open('terraform-output-dev-infra.json', 'r') as f:
 #     data = json.load(f)
 
 # # Specify the keys of interest
@@ -42,12 +42,17 @@
 import json
 import os
 import requests
+from dotenv import load_dotenv
 
+dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file.env')
+load_dotenv(dotenv_path)
 # Load region from environment variable
 REGION = os.getenv('REGION')
+# Define your webhook URL
+WEBHOOK_URL = os.getenv('WEBHOOK_URL')
 
 # Read the JSON file
-with open('./artifact/terraform-output-dev-infra.json', 'r') as f:
+with open('./terraform-output-dev-infra.json', 'r') as f:
     data = json.load(f)
 
 # Specify the keys of interest
@@ -68,9 +73,6 @@ for key in keys_of_interest:
 
 # Convert the output dictionary to JSON string
 output_json = json.dumps(output, indent=4)
-
-# Define your webhook URL
-WEBHOOK_URL = os.getenv('WEBHOOK_URL')
 
 
 # Send the JSON output to the webhook URL
