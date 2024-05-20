@@ -47,7 +47,7 @@ import requests
 REGION = os.getenv('REGION')
 
 # Read the JSON file
-with open('terraform-output-dev-infra.json', 'r') as f:
+with open('./artifactterraform-output-dev-infra.json', 'r') as f:
     data = json.load(f)
 
 # Specify the keys of interest
