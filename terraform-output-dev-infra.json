@@ -347,7 +347,7 @@
       "arn:aws:lambda:us-east-2:889148926241:function:qrest-stop-vm-dev2"
     ]
   },
-  "rest-api-invoke-url": {
+  "rest_api_invoke_url": {
     "sensitive": false,
     "type": "string",
     "value": "https://e34z0bwoh0.execute-api.us-east-2.amazonaws.com/rest-api-stage/schedule"
