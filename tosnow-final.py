@@ -1,8 +1,8 @@
 import json
 import os
 import requests
-from dotenv import load_dotenv
 
+# from dotenv import load_dotenv
 # Load environment variables from .env file
 # dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file.env')
 # load_dotenv(dotenv_path)
