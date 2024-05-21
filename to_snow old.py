@@ -44,7 +44,7 @@ import os
 import requests
 from dotenv import load_dotenv
 
-dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file.env')
+dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file_copy.env')
 load_dotenv(dotenv_path)
 # Load region from environment variable
 REGION = os.getenv('REGION')
@@ -56,7 +56,7 @@ with open('./terraform-output-dev-infra.json', 'r') as f:
     data = json.load(f)
 
 # Specify the keys of interest
-keys_of_interest = ['User_Pool_Client_ID', 'User_Pool_Client_secret', 'User_Pool_Domain', 'rest_api_invoke_url']
+keys_of_interest = ['User_Pool_Client_ID', 'User_Pool_Client_secret', 'User_Pool_Domain','test_rest_api_invoke_urls']
 
 # Initialize the output dictionary with the action key-value pair
 output = {

@@ -31,7 +31,7 @@ if token_response.status_code == 200:
     access_token = token_response_json.get('access_token')
     
     # Define the second API endpoint URL and other necessary parameters
-    snow_url = os.getenv('SNOW_URL')
+    snow_url = os.getenv('SNOW_URL_RESPONSE_BACK')
     region = os.getenv('REGION')
 
     # Read the JSON file containing data for the second API call
