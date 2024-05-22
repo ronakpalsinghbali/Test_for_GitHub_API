@@ -24,18 +24,14 @@ env:
   AWS_ACCESS_KEY_INPUT: ${{inputs.ACCESS_KEY_ID}}
   AWS_SECRET_ACCESS_KEY_INPUT: ${{inputs.SECRET_ACCESS_KEY_ID}}
 
+  BUCKET_TF_STATE_DEV: ronak-test-bucket
+  STATE_FILE_TF_VAR_DEV: ronak-test.tfstate
+  STATELOCK_TABLE_TF_DEV: ronak-test
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
-          aws-region: ${{env.REGION}}
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -44,13 +40,41 @@ jobs:
         with:
           terraform_version: 1.1.0
 
+      - name: Configure AWS Credentials personal account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
+          aws-region: ${{env.REGION}}
+
+      - name: Setup Remote state DEV
+        run: |
+            aws --version
+            chmod +x s3-remote-state.sh
+            ./s3-remote-state.sh ${{env.BUCKET_TF_STATE_DEV}} ${{env.STATELOCK_TABLE_TF_DEV}} ${{env.REGION}}
+
+      - name: Configure AWS Credentials CLOUDEQ account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_CLOUDEQ }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_CLOUDEQ }}
+          aws-region: ${{env.REGION}}
+
+      - name: Git config
+        run: git config --global url."https://oauth2:${{secrets.TOKEN_PAT}}@github.com".insteadOf https://github.com
+
         
       - name: Initialize Terraform
-        run: terraform init
+        run: terraform init -reconfigure -backend-config="bucket=${{env.BUCKET_TF_STATE_DEV}}" -backend-config="key=${{ env.STATE_FILE_TF_VAR_DEV }}" -backend-config="dynamodb_table=${{env.STATELOCK_TABLE_TF_DEV}}" -backend-config="encrypt=true"
 
       - name: Plan Terraform
         run: | 
-          terraform plan -var-file="dev.tfvars" \
+          terraform plan -var-file="./dev.tfvars" \
           -var="region=${{env.REGION}}"
+
+      # - name: APPLY Terraform
+      #   run: | 
+      #     terraform apply -auto-approve -var-file="./dev.tfvars" \
+      #     -var="region=${{env.REGION}}"
 
 
