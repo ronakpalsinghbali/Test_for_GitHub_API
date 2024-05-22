@@ -352,12 +352,12 @@
     "type": "string",
     "value": "https://pmbw3kjyu4.execute-api.us-east-1.amazonaws.com/rest-api-stage/schedule"
   },
-  "test_rest_api_invoke_url_adhoc": {
+  "rest_api_invoke_url_adhoc": {
     "sensitive": false,
     "type": "string",
     "value": "https://pmbw3kjyu4.execute-api.us-east-1.amazonaws.com/rest-api-stage/adhoc"
   },
-  "test_rest_api_invoke_url_schedule": {
+  "rest_api_invoke_url_schedule": {
     "sensitive": false,
     "type": "string",
     "value": "https://pmbw3kjyu4.execute-api.us-east-1.amazonaws.com/rest-api-stage/schedule"

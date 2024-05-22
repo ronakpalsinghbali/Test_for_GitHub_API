@@ -1,14 +1,16 @@
 import json
 import os
 import requests
-
 # from dotenv import load_dotenv
+
 # Load environment variables from .env file
 # dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file.env')
 # load_dotenv(dotenv_path)
 
+service_now_instance = os.getenv('SERVICE_NOW_INSTANCE')
 # Define the API endpoint URL for token generation
-token_url = os.getenv('TOKEN_URL')
+token_url = f"https://{service_now_instance}.service-now.com/oauth_token.do"
+
 
 # Define the payload (data to be sent to the API) for token generation
 token_payload = {
@@ -31,7 +33,7 @@ if token_response.status_code == 200:
     access_token = token_response_json.get('access_token')
     
     # Define the second API endpoint URL and other necessary parameters
-    snow_url = os.getenv('SNOW_URL_RESPONSE_BACK')
+    snow_url = f"https://{service_now_instance}.service-now.com/api/x_ceq_hibernate_cl/renaissance/Renaissance_AWS_Status"
     region = os.getenv('REGION')
 
     # Read the JSON file containing data for the second API call

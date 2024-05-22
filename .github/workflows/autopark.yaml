@@ -3,29 +3,9 @@ name: GitHub_SubnetIDs_parsing
 on:
   workflow_dispatch:
     inputs:
-      REGION:
-        description: REGION
-        # default: "us-east-1"
-        type: string
-        required: true
 
-      VPC_CIDR_BLOCK:
-        description: VPC_CIDR_BLOCK
-        type: string
-        required: true
-
-      PUBLIC_SUBNET_CIDRS:
-        description: PUBLIC_SUBNET_CIDRS
-        type: string
-        required: true
-
-      PRIVATE_SUBNET_CIDRS:
-        description: PRIVATE_SUBNET_CIDRS
-        type: string
-        required: true
-
-      AVAILABILITY_ZONES:
-        description: AVAILABILITY_ZONES
+      REGION: 
+        description: Region name 
         type: string
         required: true
 
@@ -39,162 +19,38 @@ on:
         type: string
         required: true
 env:
-  REGION: ${{ inputs.REGION }}
-  VPC_CIDR_BLOCK: ${{ inputs.VPC_CIDR_BLOCK }}
-  PUBLIC_SUBNET_CIDRS: ${{inputs.PUBLIC_SUBNET_CIDRS}}
-  PRIVATE_SUBNET_CIDRS: ${{inputs.PRIVATE_SUBNET_CIDRS}}
-  AVAILABILITY_ZONES: ${{inputs.AVAILABILITY_ZONES}}
 
+  REGION: ${{inputs.REGION}}
   AWS_ACCESS_KEY_INPUT: ${{inputs.ACCESS_KEY_ID}}
   AWS_SECRET_ACCESS_KEY_INPUT: ${{inputs.SECRET_ACCESS_KEY_ID}}
 
 jobs:
-  # terraform:
-    # runs-on: ubuntu-latest
-    # steps:
-      # - name: Parse values
-      #   id: parse_values
-      #   run: |
-      #     echo "VPC_CIDR_BLOCK=\\\"$(echo ${{ env.VPC_CIDR_BLOCK }} | sed 's/,/\\",\\"/g')\\\"" >> $GITHUB_OUTPUT
-      #     echo "PUBLIC_SUBNET_CIDRS=[\\\"$(echo ${{ env.PUBLIC_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
-      #     echo "PRIVATE_SUBNET_CIDRS=[\\\"$(echo ${{ env.PRIVATE_SUBNET_CIDRS }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
-      #     echo "AVAILABILITY_ZONES=[\\\"$(echo ${{ env.AVAILABILITY_ZONES }} | sed 's/,/\\",\\"/g')\\\"]" >> $GITHUB_OUTPUT
-
-      # - name: Printing the parsed values
-      #   id: parsed-printing
-      #   run: |
-      #     echo VPC_CIDR_BLOCK=${{ steps.parse_values.outputs.VPC_CIDR_BLOCK }}
-      #     echo PUBLIC_SUBNET_CIDRS=${{ steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS }}
-      #     echo PRIVATE_SUBNET_CIDRS=${{ steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS }}
-      #     echo AVAILABILITY_ZONES=${{ steps.parse_values.outputs.AVAILABILITY_ZONES }}
-
-      # - name: Configure AWS Credentials for DEV ENV
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
-      #     aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
-      #     aws-region: ${{env.REGION}}
-
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
-
-      # - name: Install Terraform
-      #   uses: hashicorp/setup-terraform@v3
-      #   with:
-      #     terraform_version: 1.1.0
-
-      # - name: Run Checkov action
-      #   id: checkov
-      #   uses: bridgecrewio/checkov-action@master
-      #   with:
-      #     directory: .
-      #     framework: terraform
-      #     download_external_modules: true
-      #     output_format: sarif
-      #     output_file_path: console,checkov_report/results.sarif
-      #     github_pat: ${{ secrets.TOKEN_PAT }}
-        
-      # - name: Initialize Terraform
-      #   run: terraform init
-
-      # - name: Plan Terraform
-      #   run: | 
-      #     terraform plan -var-file="dev.tfvars" \
-      #     -var="region=${{env.REGION}}" \
-      #     -var="cidr_block=${{env.VPC_CIDR_BLOCK}}" \
-      #     -var="public_subnet_cidrs=${{steps.parse_values.outputs.PUBLIC_SUBNET_CIDRS}}" \
-      #     -var="private_subnet_cidrs=${{steps.parse_values.outputs.PRIVATE_SUBNET_CIDRS}}" \
-      # #     -var="availability_zones=${{steps.parse_values.outputs.AVAILABILITY_ZONES}}" 
-
-      # - name: Send message to Teams
-      #   run: |
-      #     curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl"}' ${{secrets.MS_WEBHOOK_URL}}
-
-      # - name: Sending message to teams
-      #   uses: neonidian/teams-notify-build-status@v3
-      #   with:
-      #       webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
-      #       message: |
-      #         Infra has been deployed !!! - from action
-          
-
-
-  Extracting:
-    # needs: terraform
+  terraform:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
+          aws-region: ${{env.REGION}}
 
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Upload Terraform Output
-        uses: actions/upload-artifact@v2
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
         with:
-          name: terraform-output-dev-infra
-          path: terraform-output-dev-infra.json
+          terraform_version: 1.1.0
 
-  next-job:
-    runs-on: ubuntu-latest
-    needs: Extracting
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download Terraform Output
-        uses: actions/download-artifact@v2
-        with:
-          name: terraform-output-dev-infra  
-          path: ./artifact  
         
-      # - name: Send message by py script
-      #   run: | 
-      #     python3 ./tosnow-final.py > toSNOW.txt
-      #   env:
-      #     REGION: ${{inputs.REGION}}
-      #     TOKEN_URL: 'https://cloudeqincdemo1.service-now.com/oauth_token.do'
-      #     GRANT_TYPE: 'password'
-      #     CLIENT_SECRET: ${{ secrets.CLIENT_SECRET}}
-      #     CLIENT_ID: ${{ secrets.CLIENT_ID}}
-      #     SNOW_USERNAME: 'AutoparkWebservices'
-      #     SNOW_PASSWORD: 'Autopark@120'
-      #     SNOW_URL_RESPONSE_BACK: 'https://cloudeqincdemo1.service-now.com/api/x_ceq_hibernate_cl/renaissance/Renaissance_AWS_Status'
+      - name: Initialize Terraform
+        run: terraform init
 
-      # - name: Print value for SNOW
-      #   run: |
-      #     cat toSNOW.txt
+      - name: Plan Terraform
+        run: | 
+          terraform plan -var-file="dev.tfvars" \
+          -var="region=${{env.REGION}}"
 
 
-      # - name: Extract from output
-      #   id: extract-from-output 
-      #   run: |
-      #     rest_api_url=$(jq -r '.["rest-api-invoke-url"]' out.json)
-      #     echo "REST_API_URL=$rest_api_url" >> $GITHUB_OUTPUT
-
-      # - name: print URL
-      #   run: echo $REST_API_URL
-
-      # - name: Send message to Teams
-      #   run: |
-      #     curl -H 'Content-Type: application/json' -d '{"text": "Infra has been deployed !!! - from curl  REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}"}' ${{secrets.MS_WEBHOOK_URL}}
-
-
-      # - name: Sending message to teams
-      #   uses: neonidian/teams-notify-build-status@v3
-      #   with:
-      #       webhookUrl: ${{ secrets.MS_WEBHOOK_URL }}   
-      #       message: |
-      #         Infra has been deployed !!! - from action
-                # REST API URL= ${{steps.extract-from-output.outputs.REST_API_URL}}
-
-
-      # - name: Send message to teams via py script
-      #   run: | 
-      #     python3 ./type1.py
-      #     python3 ./type2.py
-      #   env:
-      #     WEBHOOK_URL: ${{ secrets.MS_WEBHOOK_URL }}
-
-          
-          
-
-          

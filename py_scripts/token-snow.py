@@ -1,7 +1,15 @@
 import requests
+import os
+from dotenv import load_dotenv
+
+# dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file_token.env')
+# load_dotenv(dotenv_path)
 
 # Define the API endpoint URL
-url = 'https://cloudeqincdemo1.service-now.com/oauth_token.do'
+# service_now_instance = os.getenv('SERVICE_NOW_INSTANCE')
+url = f"https://cloudeqincdemo1.service-now.com/oauth_token.do"
+# Define the API endpoint URL for token generation
+
 
 # Define the payload (data to be sent to the API)
 payload = {
