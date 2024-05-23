@@ -47,26 +47,19 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
           aws-region: ${{env.REGION}}
 
-      - name: Setup Remote state DEV
-        run: |
-            aws --version
-            chmod +x s3-remote-state.sh
-            ./s3-remote-state.sh ${{env.BUCKET_TF_STATE_DEV}} ${{env.STATELOCK_TABLE_TF_DEV}} ${{env.REGION}}
-
-      - name: Configure AWS Credentials CLOUDEQ account
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_CLOUDEQ }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_CLOUDEQ }}
-          aws-region: ${{env.REGION}}
-
+      # - name: Setup Remote state DEV
+      #   run: |
+      #       aws --version
+      #       chmod +x s3-remote-state.sh
+      #       ./s3-remote-state.sh ${{env.BUCKET_TF_STATE_DEV}} ${{env.STATELOCK_TABLE_TF_DEV}} ${{env.REGION}}
+            
       - name: Git config
         run: git config --global url."https://oauth2:${{secrets.TOKEN_PAT}}@github.com".insteadOf https://github.com
-
-        
+            
+            
       - name: Initialize Terraform
         run: terraform init -reconfigure -backend-config="bucket=${{env.BUCKET_TF_STATE_DEV}}" -backend-config="key=${{ env.STATE_FILE_TF_VAR_DEV }}" -backend-config="dynamodb_table=${{env.STATELOCK_TABLE_TF_DEV}}" -backend-config="encrypt=true"
-
+            
       - name: Plan Terraform
         run: | 
           terraform plan -var-file="./dev.tfvars" \
@@ -76,5 +69,6 @@ jobs:
       #   run: | 
       #     terraform apply -auto-approve -var-file="./dev.tfvars" \
       #     -var="region=${{env.REGION}}"
-
-
+          
+      - name: Download tfstate file from Account 1
+        run: aws s3 cp s3://${{env.BUCKET_TF_STATE_DEV}}/${{env.STATE_FILE_TF_VAR_DEV}} .
