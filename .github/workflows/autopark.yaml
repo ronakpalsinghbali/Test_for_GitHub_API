@@ -66,7 +66,7 @@ jobs:
         run: |
           terraform plan -var-file="./dev.tfvars" \
           -var="region=${{env.REGION}}"
-        continue-on-error: true
+        
 
       - name: Capture Terraform Plan status
         if: failure()  # This step runs only if the previous step fails
