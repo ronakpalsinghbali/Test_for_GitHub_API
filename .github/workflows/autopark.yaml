@@ -45,7 +45,7 @@ jobs:
         with:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
-          aws-region: ${{env.REGION}}
+          aws-region: ap-south-1
 
       # - name: Setup Remote state DEV
       #   run: |
@@ -88,7 +88,7 @@ jobs:
           cat response-status.txt
 
 
-          
+
       # - name: APPLY Terraform
       #   run: | 
       #     terraform apply -auto-approve -var-file="./dev.tfvars" \
