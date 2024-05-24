@@ -62,40 +62,88 @@ jobs:
       - name: Initialize Terraform
         run: terraform init
       # run: terraform init -reconfigure -backend-config="bucket=${{env.BUCKET_TF_STATE_DEV}}" -backend-config="key=${{ env.STATE_FILE_TF_VAR_DEV }}" -backend-config="dynamodb_table=${{env.STATELOCK_TABLE_TF_DEV}}" -backend-config="encrypt=true"
-            
+         
+      
       - name: Plan Terraform
         id: plan
         run: |
           terraform plan -var-file="./dev.tfvars" \
-          -var="region=${{env.REGION}}"
-        
+          -var="region=${{env.REGION}}" 2>error.log || true
 
       - name: Capture Terraform Plan status
-        if: failure()  
         id: capture-plan-error
         run: |
-          echo "error_message=Terraform Plan failed" >> $GITHUB_OUTPUT
+          if [ -s error.log ]; then
+            error_message=$(cat error.log)
+            echo "error_message=$error_message" >> $GITHUB_ENV
+          else
+            echo "error_message=" >> $GITHUB_ENV
+          fi
 
-      - name: printTerraform Plan status
-        if: always()  
-        id: print-plan-error
+      - name: Print Terraform Plan status
         run: |
-          echo "${{steps.capture-plan-error.outputs.error_message}}"
+          echo "Error message: ${{ env.error_message }}"
 
   Send-Response-To-SNOW:
     runs-on: ubuntu-latest
-    needs: [terraform]
+    needs: terraform
     if: always()
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Send response to SNOW
-        run: echo "${{needs.terraform.outputs.error_message}}"
-      # run: |
-      #     if [ -z "${{ needs.terraform.outputs.error_message }}" ]; then
-      #       echo "No errors, job succeeded" > response-status.txt
-      #     else
-      #       echo "${{ needs.terraform.outputs.error_message }}" > response-status.txt
-      #     fi
-      #     cat response-status.txt
+        run: |
+            if [ -z "${{ env.error_message }}" ]; then
+              echo "No errors, job succeeded" > response-status.txt
+            else
+              echo "${{ env.error_message }}" > response-status.txt
+            fi
+            cat response-status.txt
+
+
+
+
+
+
+
+
+
+
+# This way is working
+  #     - name: Plan Terraform
+  #       id: plan
+  #       run: |
+  #         terraform plan -var-file="./dev.tfvars" \
+  #         -var="region=${{env.REGION}}"
+        
+
+  #     - name: Capture Terraform Plan status
+  #       if: failure()  
+  #       id: capture-plan-error
+  #       run: |
+  #         echo "error_message=Terraform Plan failed" >> $GITHUB_OUTPUT
+
+  #     - name: printTerraform Plan status
+  #       if: always()  
+  #       id: print-plan-error
+  #       run: |
+  #         echo "${{steps.capture-plan-error.outputs.error_message}}"
+
+  # Send-Response-To-SNOW:
+  #   runs-on: ubuntu-latest
+  #   needs: [terraform]
+  #   if: always()
+  #   steps:
+  #     - name: Send response to SNOW
+  #       run: |
+  #           if [ -z "${{ needs.terraform.outputs.error_message }}" ]; then
+  #             echo "No errors, job succeeded" > response-status.txt
+  #           else
+  #             echo "${{ needs.terraform.outputs.error_message }}" > response-status.txt
+  #           fi
+  #           cat response-status.txt
+        
 
 
 
