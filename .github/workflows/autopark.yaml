@@ -31,6 +31,8 @@ env:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    # outputs:
+    #   error_message: ${{ steps.capture-plan-error.outputs.error_message }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -69,11 +71,10 @@ jobs:
         
 
       - name: Capture Terraform Plan status
-        if: failure()  # This step runs only if the previous step fails
+        if: failure()  
         id: capture-plan-error
         run: |
-          echo "error_message=Terraform Plan failed" >> $GITHUB_ENV
-          echo "::set-output name=error_message::Terraform Plan failed"
+          echo "error_message=Terraform Plan failed" >> $GITHUB_OUTPUT
 
   Send-Response-To-SNOW:
     runs-on: ubuntu-latest
