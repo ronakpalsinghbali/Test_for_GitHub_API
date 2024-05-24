@@ -66,12 +66,14 @@ jobs:
         run: |
           terraform plan -var-file="./dev.tfvars" \
           -var="region=${{env.REGION}}"
-        
+        continue-on-error: true
 
       - name: Capture Terraform Plan status
-        if: failure()
+        if: failure()  # This step runs only if the previous step fails
         id: capture-plan-error
-        run: echo "error_message=Terraform Plan failed" >> $GITHUB_ENV
+        run: |
+          echo "error_message=Terraform Plan failed" >> $GITHUB_ENV
+          echo "::set-output name=error_message::Terraform Plan failed"
 
   Send-Response-To-SNOW:
     runs-on: ubuntu-latest
@@ -80,10 +82,10 @@ jobs:
     steps:
       - name: Send response to SNOW
         run: |
-          if [ -z "${{ env.error_message }}" ]; then
+          if [ -z "${{ needs.terraform.outputs.error_message }}" ]; then
             echo "No errors, job succeeded" > response-status.txt
           else
-            echo "${{ env.error_message }}" > response-status.txt
+            echo "${{ needs.terraform.outputs.error_message }}" > response-status.txt
           fi
           cat response-status.txt
 
