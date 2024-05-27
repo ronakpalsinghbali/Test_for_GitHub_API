@@ -72,23 +72,24 @@ jobs:
         run: |
           FAILED_STEPS=""
           if [ "${{steps.checkout.outcome}}" == "failure" ]; then
-            FAILED_STEPS="$FAILED_STEPS Checkout code"
+            FAILED_STEPS="Checkout code"
           fi
           if [ "${{steps.install_terraform.outcome}}" == "failure" ]; then
-            FAILED_STEPS="$FAILED_STEPS Install Terraform"
+            FAILED_STEPS="Install Terraform"
           fi
           if [ "${{steps.configure_aws.outcome}}" == "failure" ]; then
-            FAILED_STEPS="$FAILED_STEPS Configure AWS Credentials personal account"
+            FAILED_STEPS="Configure AWS Credentials personal account"
           fi
           if [ "${{steps.git_config.outcome}}" == "failure" ]; then
-            FAILED_STEPS="$FAILED_STEPS Git config"
+            FAILED_STEPS="Git config"
           fi
           if [ "${{steps.init_terraform.outcome}}" == "failure" ]; then
-            FAILED_STEPS="$FAILED_STEPS Initialize Terraform"
+            FAILED_STEPS="Initialize Terraform"
           fi
           if [ "${{steps.plan_terraform.outcome}}" == "failure" ]; then
-            FAILED_STEPS="$FAILED_STEPS Plan Terraform"
+            FAILED_STEPS="Plan Terraform"
           fi
+          echo "STEP_STATUS=$FAILED_STEPS"
           echo "STEP_STATUS=$FAILED_STEPS" >> $GITHUB_ENV
 
       - name: Send failure notification
