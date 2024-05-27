@@ -1,0 +1,64 @@
+name: TESTING_PIPELINE
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      REGION: 
+        description: Region name 
+        type: string
+        required: true
+
+      ACCESS_KEY_ID:
+        description: Acces key ID
+        type: string
+        required: true
+      
+      SECRET_ACCESS_KEY_ID:
+        description: Secret Acces key ID
+        type: string
+        required: true
+env:
+
+  REGION: ${{inputs.REGION}}
+  AWS_ACCESS_KEY_INPUT: ${{inputs.ACCESS_KEY_ID}}
+  AWS_SECRET_ACCESS_KEY_INPUT: ${{inputs.SECRET_ACCESS_KEY_ID}}
+
+
+
+jobs:
+  Infra-deploy-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.1.0
+
+      - name: Configure AWS Credentials personal account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
+          aws-region: ${{ env.REGION}}
+            
+      - name: Git config
+        run: git config --global url."https://oauth2:${{secrets.TOKEN_PAT}}@github.com".insteadOf https://github.com
+            
+            
+      - name: Initialize Terraform
+        run: terraform init
+      
+      - name: Plan Terraform
+        id: plan
+        run: |
+          terraform plan -var-file="./dev.tfvars" \
+          -var="region=${{env.REGION}}"
+
+      - name: Send failure notification
+        if: failure()
+        run: |
+          echo "JOB failed"
