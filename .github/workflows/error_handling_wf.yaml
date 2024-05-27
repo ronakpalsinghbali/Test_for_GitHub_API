@@ -1,4 +1,4 @@
-name: Test_wf1
+name: Error_handling_wf
 
 on:
   workflow_dispatch:

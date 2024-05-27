@@ -38,7 +38,7 @@ def read_error_log(file_path):
 
 if __name__ == "__main__":
     # Replace 'error_test.log' with the actual path to your error log file if necessary
-    log_file_path = 'error_test.log'
+    log_file_path = 'error.log'
     read_error_log(log_file_path)
 
 
