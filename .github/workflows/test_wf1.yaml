@@ -75,7 +75,7 @@ jobs:
         if: failure()
         id: py_print_error
         run: |
-          pyhton3 ./error_read.py > error_step.txt
+          python3 ./error_read.py > error_step.txt
           cat error_step.txt
 
       - name: Check for failures
