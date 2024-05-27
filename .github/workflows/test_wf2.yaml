@@ -1,4 +1,4 @@
-name: TESTING_PIPELINE
+name: Test_wf2
 
 on:
   workflow_dispatch:
