@@ -3,10 +3,11 @@ provider "aws" {
 }
 
 
-resource "aws_cognito_user_pool" "pool" {
-  name = "ronak_USER_pool"
+resource "aws_instance" "example_server" {
+  ami           = "ami-04e91463"
+  instance_type = "t2.micro"
+
   tags = {
-    "Owner"   = "ronak"
-    "purpose" = "testing"
+    Name = "JacksBlogExample"
   }
 }
