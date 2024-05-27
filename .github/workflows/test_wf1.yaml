@@ -3,62 +3,86 @@ name: Test_wf1
 on:
   workflow_dispatch:
     inputs:
-
       REGION: 
         description: Region name 
         type: string
         required: true
 
       ACCESS_KEY_ID:
-        description: Acces key ID
+        description: Access key ID
         type: string
         required: true
       
       SECRET_ACCESS_KEY_ID:
-        description: Secret Acces key ID
+        description: Secret Access key ID
         type: string
         required: true
-env:
 
+env:
   REGION: ${{inputs.REGION}}
   AWS_ACCESS_KEY_INPUT: ${{inputs.ACCESS_KEY_ID}}
   AWS_SECRET_ACCESS_KEY_INPUT: ${{inputs.SECRET_ACCESS_KEY_ID}}
-
-
+  STEP_STATUS: ""
 
 jobs:
   Infra-deploy-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@v4
+        continue-on-error: true
 
       - name: Install Terraform
+        id: install_terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.1.0
+        continue-on-error: true
 
       - name: Configure AWS Credentials personal account
+        id: configure_aws
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
           aws-region: ${{ env.REGION}}
+        continue-on-error: true
             
       - name: Git config
+        id: git_config
         run: git config --global url."https://oauth2:${{secrets.TOKEN_PAT}}@github.com".insteadOf https://github.com
-            
+        continue-on-error: true
             
       - name: Initialize Terraform
+        id: init_terraform
         run: terraform init
+        continue-on-error: true
       
       - name: Plan Terraform
-        id: plan
+        id: plan_terraform
         run: |
           terraform plan -var-file="./dev.tfvars" \
           -var="region=${{env.REGION}}"
+        continue-on-error: true
+
+      - name: Check for failures
+        run: |
+          if [ "${{steps.checkout.outcome}}" == "failure" ]; then
+            echo "STEP_STATUS=Checkout code failed" >> $GITHUB_ENV
+          elif [ "${{steps.install_terraform.outcome}}" == "failure" ]; then
+            echo "STEP_STATUS=Install Terraform failed" >> $GITHUB_ENV
+          elif [ "${{steps.configure_aws.outcome}}" == "failure" ]; then
+            echo "STEP_STATUS=Configure AWS Credentials personal account failed" >> $GITHUB_ENV
+          elif [ "${{steps.git_config.outcome}}" == "failure" ]; then
+            echo "STEP_STATUS=Git config failed" >> $GITHUB_ENV
+          elif [ "${{steps.init_terraform.outcome}}" == "failure" ]; then
+            echo "STEP_STATUS=Initialize Terraform failed" >> $GITHUB_ENV
+          elif [ "${{steps.plan_terraform.outcome}}" == "failure" ]; then
+            echo "STEP_STATUS=Plan Terraform failed" >> $GITHUB_ENV
+          fi
 
       - name: Send failure notification
         if: failure()
         run: |
-          echo "JOB failed"
+          echo "JOB failed: $STEP_STATUS"
