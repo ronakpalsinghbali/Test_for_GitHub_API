@@ -67,6 +67,7 @@ jobs:
 
 
       - name: Print Terraform Plan Status
+        if: always()
         run: |
           cat error.log
         
