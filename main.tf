@@ -3,11 +3,10 @@ provider "aws" {
 }
 
 
-resource "aws_instance" "example_server" {
-  ami           = "ami-04e91463"
-  instance_type = "t2.micr"
+resource "aws_vpc" "my_vpc" {
+  cidr_block = "172.16.0.0/"
 
   tags = {
-    Name = "JacksBlogExample"
+    Name = "tf-example"
   }
 }
