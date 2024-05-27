@@ -1,4 +1,11 @@
 import json
+import re
+
+def remove_escape_codes(text):
+    # Regular expression to match ANSI escape codes
+    ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+    # Remove escape codes from the text
+    return ansi_escape.sub('', text)
 
 def read_error_log(file_path):
     try:
@@ -8,6 +15,8 @@ def read_error_log(file_path):
                 if "Error:" in line:
                     # Clean up the line to remove any leading/trailing whitespace and unwanted characters
                     error_message = line.strip()
+                    # Remove ANSI escape codes
+                    error_message = remove_escape_codes(error_message)
                     # Split the error message to get the key-value pair
                     error_parts = error_message.split(": ", 1)
                     if len(error_parts) == 2:
@@ -29,7 +38,7 @@ def read_error_log(file_path):
 
 if __name__ == "__main__":
     # Replace 'error_test.log' with the actual path to your error log file if necessary
-    log_file_path = 'error.log'
+    log_file_path = 'error_test.log'
     read_error_log(log_file_path)
 
 
