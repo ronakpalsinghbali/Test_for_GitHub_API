@@ -80,7 +80,7 @@ jobs:
         if: ${{ failure() && steps.plan_terraform.outcome == 'failure' }}
         id: plan_print_error
         run: |
-          python3 ./error_read.py > plan_error.txt
+          python3 ./py_scripts/error_read.py > plan_error.txt
           cat plan_error.txt
 
       - name: Check for failures
