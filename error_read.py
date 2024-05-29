@@ -10,22 +10,37 @@ def read_error_log(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             lines = file.readlines()
+            full_message = ''.join(lines).strip()
+            full_message = remove_escape_codes(full_message)
+
+            error_message = None
             for line in lines:
-                # Check for different types of error indicators
                 if "ERROR:" in line or "Error:" in line or "An error occurred" in line:
                     error_message = line.strip()
                     error_message = remove_escape_codes(error_message)
-                    error_parts = error_message.split(": ", 1)
-                    if len(error_parts) == 2:
-                        key, value = error_parts
-                        error_dict = {
-                            "action": "createInfra",
-                            "Error": value
-                        }
-                        print(json.dumps(error_dict, indent=2))
-                    else:
-                        print(json.dumps({"action": "createInfra", "Error": error_message}, indent=2))
                     break
+
+            if error_message:
+                error_parts = error_message.split(": ", 1)
+                if len(error_parts) == 2:
+                    key, value = error_parts
+                    error_dict = {
+                        "action": "createInfra",
+                        "Error": value
+                    }
+                else:
+                    error_dict = {
+                        "action": "createInfra",
+                        "Error": error_message
+                    }
+            else:
+                error_dict = {
+                    "action": "createInfra",
+                    "Error": full_message
+                }
+
+            print(json.dumps(error_dict, indent=2))
+
     except FileNotFoundError:
         print(f"The file {file_path} does not exist.")
     except Exception as e:
@@ -34,6 +49,8 @@ def read_error_log(file_path):
 if __name__ == "__main__":
     log_file_path = 'error.log'
     read_error_log(log_file_path)
+
+
 
 
 
