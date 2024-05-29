@@ -1,4 +1,3 @@
-
 import json
 import re
 
@@ -13,7 +12,7 @@ def read_error_log(file_path):
             lines = file.readlines()
             for line in lines:
                 # Check for different types of error indicators
-                if "Error:" in line or "An error occurred" in line:
+                if "ERROR:" in line or "Error:" in line or "An error occurred" in line:
                     error_message = line.strip()
                     error_message = remove_escape_codes(error_message)
                     error_parts = error_message.split(": ", 1)
@@ -35,6 +34,7 @@ def read_error_log(file_path):
 if __name__ == "__main__":
     log_file_path = 'error.log'
     read_error_log(log_file_path)
+
 
 
 # import json
