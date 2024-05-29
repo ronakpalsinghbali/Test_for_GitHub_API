@@ -67,12 +67,12 @@ jobs:
 
 
       - name: Print Terraform Plan Status
-        if: always()
+        if: ${{ failure() && steps.plan_terraform.outcome == 'failure' }}
         run: |
           cat error.log
         
       - name: PY script to print the error
-        if: failure()
+        if: ${{ failure() && steps.plan_terraform.outcome == 'failure' }}
         id: py_print_error
         run: |
           python3 ./error_read.py > error_step.txt
