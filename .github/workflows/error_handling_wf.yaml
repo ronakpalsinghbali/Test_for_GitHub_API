@@ -46,7 +46,7 @@ jobs:
           aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_INPUT }}
           aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
           aws configure set region ${{ env.REGION }}
-          aws sts get-caller-identity 2>aws_error.log || (cat aws_error.log && exit 1)
+          aws sts get-caller-identity 2>error.log || (cat error.log && exit 1)
         
       - name: Print error for AWS Configure step
         if: ${{ failure() && steps.configure_aws.outcome == 'failure' }}
