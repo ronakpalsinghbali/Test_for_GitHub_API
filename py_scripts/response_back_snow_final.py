@@ -1,16 +1,15 @@
 import json
 import os
 import requests
-# from dotenv import load_dotenv
 
+from dotenv import load_dotenv
 # Load environment variables from .env file
-# dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file.env')
-# load_dotenv(dotenv_path)
+dotenv_path = os.path.join(os.path.dirname(__file__), 'env_file.env')
+load_dotenv(dotenv_path)
 
 service_now_instance = os.getenv('SERVICE_NOW_INSTANCE')
 # Define the API endpoint URL for token generation
 token_url = f"https://{service_now_instance}.service-now.com/oauth_token.do"
-
 
 # Define the payload (data to be sent to the API) for token generation
 token_payload = {
@@ -37,11 +36,11 @@ if token_response.status_code == 200:
     region = os.getenv('REGION')
 
     # Read the JSON file containing data for the second API call
-    with open('./terraform-output-dev-infra.json', 'r') as f:
+    with open('./terraform-output-net-infra.json', 'r') as f:
         data = json.load(f)
 
     # Specify the keys of interest from the JSON file
-    keys_of_interest = ['User_Pool_Client_ID', 'User_Pool_Client_secret', 'User_Pool_Domain', 'rest_api_invoke_url']
+    keys_of_interest = ['User_Pool_Client_ID', 'User_Pool_Client_Secret', 'User_Pool_Domain', 'rest_api_invoke_url_adhoc','rest_api_invoke_url_schedule']
 
     # Initialize the output dictionary with the action key-value pair
     output = {
@@ -58,7 +57,7 @@ if token_response.status_code == 200:
 
     # Convert the output dictionary to JSON string
     output_json = json.dumps(output, indent=4)
-
+    print("The payload sent is:",output_json)
     # Define headers for the second API call with the access token
     headers = {
         "Authorization": f"Bearer {access_token}",

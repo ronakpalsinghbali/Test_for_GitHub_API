@@ -1,114 +1,19 @@
+
 {
-  "Default_Network_ACL_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "acl-03f54b3548990c6af"
-  },
-  "Default_SG_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "sg-0728add937d54c376"
-  },
-  "EIP_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "eipalloc-0023b914a6b246f6e"
-  },
-  "IGW_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "igw-03d23f9ec0d6190c1"
-  },
-  "NAT_GW_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "nat-02d126c55c95b1e2b"
-  },
-  "Private_RT_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "rtb-038900c9b4493b341"
-  },
-  "Private_Subnet_ID_1": {
-    "sensitive": false,
-    "type": "string",
-    "value": "subnet-0441ef8aa15038407"
-  },
-  "Private_Subnet_ID_2": {
-    "sensitive": false,
-    "type": "string",
-    "value": "subnet-0af6606b436a6d6f4"
-  },
-  "Private_Subnet_IDs": {
-    "sensitive": false,
-    "type": [
-      "tuple",
-      [
-        "string",
-        "string"
-      ]
-    ],
-    "value": [
-      "subnet-0441ef8aa15038407",
-      "subnet-0af6606b436a6d6f4"
-    ]
-  },
-  "Public_RT_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "rtb-0e161f2c53c19f797"
-  },
-  "Public_Subnet_IDs": {
-    "sensitive": false,
-    "type": [
-      "tuple",
-      [
-        "string"
-      ]
-    ],
-    "value": [
-      "subnet-09ab2cfabb8c9102f"
-    ]
-  },
-  "SG1_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "sg-048cc984c5c3dc947"
-  },
-  "SG1_egress_1_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "sgr-081bd00eaf674f4c7"
-  },
-  "SG1_ingress_1_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "sgr-06567732d5a8801c9"
-  },
-  "SG1_ingress_2_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "sgr-080fabc3489164e2a"
-  },
   "User_Pool_Client_ID": {
     "sensitive": false,
     "type": "string",
-    "value": "7243fsvgaq83jfutsa1tr70da4"
+    "value": "3jjtijdi27729odfcto4l3ak8r"
   },
-  "User_Pool_Client_secret": {
+  "User_Pool_Client_Secret": {
     "sensitive": true,
     "type": "string",
-    "value": "7saf42teekq6eda3coc7n2t5aigucllqtu3sqcqmhqvdottgb23"
+    "value": "1u54uuj6a6jnk4160d9a60mnk0lfqip25odv04p6k1mkk5pekmf0"
   },
   "User_Pool_Domain": {
     "sensitive": false,
     "type": "string",
     "value": "qrest-domain-dev2"
-  },
-  "VPC_ID": {
-    "sensitive": false,
-    "type": "string",
-    "value": "vpc-0766f46a2d0263384"
   },
   "cloudwatch_logs_arn": {
     "sensitive": false,
@@ -338,7 +243,7 @@
         "string",
         "string",
         "string"
-      ] 
+      ]
     ],
     "value": [
       "arn:aws:lambda:us-east-1:889148926241:function:qrest-schedule-dev2",
@@ -347,22 +252,17 @@
       "arn:aws:lambda:us-east-1:889148926241:function:qrest-stop-vm-dev2"
     ]
   },
-  "rest_api_invoke_url": {
-    "sensitive": false,
-    "type": "string",
-    "value": "https://pmbw3kjyu4.execute-api.us-east-1.amazonaws.com/rest-api-stage/schedule"
-  },
   "rest_api_invoke_url_adhoc": {
     "sensitive": false,
     "type": "string",
-    "value": "https://pmbw3kjyu4.execute-api.us-east-1.amazonaws.com/rest-api-stage/adhoc"
+    "value": "https://1jwe505ps1.execute-api.us-east-1.amazonaws.com/rest-api-stage/adhoc"
   },
   "rest_api_invoke_url_schedule": {
     "sensitive": false,
     "type": "string",
-    "value": "https://pmbw3kjyu4.execute-api.us-east-1.amazonaws.com/rest-api-stage/schedule"
+    "value": "https://1jwe505ps1.execute-api.us-east-1.amazonaws.com/rest-api-stage/schedule"
   },
-  "test_rest_api_invoke_urls": {
+  "rest_api_invoke_urls": {
     "sensitive": false,
     "type": [
       "tuple",
@@ -372,8 +272,8 @@
       ]
     ],
     "value": [
-      "https://pmbw3kjyu4.execute-api.us-east-1.amazonaws.com/rest-api-stage/schedule",
-      "https://pmbw3kjyu4.execute-api.us-east-1.amazonaws.com/rest-api-stage/adhoc"
+      "https://1jwe505ps1.execute-api.us-east-1.amazonaws.com/rest-api-stage/schedule",
+      "https://1jwe505ps1.execute-api.us-east-1.amazonaws.com/rest-api-stage/adhoc"
     ]
   },
   "version": {
@@ -409,16 +309,16 @@
     ],
     "value": [
       [
-        "3"
+        "9"
       ],
       [
-        "3"
+        "9"
       ],
       [
-        "3"
+        "9"
       ],
       [
-        "3"
+        "9"
       ]
     ]
   }
