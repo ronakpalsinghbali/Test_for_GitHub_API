@@ -42,12 +42,17 @@ jobs:
 
       - name: Configure AWS Credentials personal account
         id: configure_aws
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_INPUT }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
-          aws-region: ${{env.REGION}}
+        run: |
+          aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_INPUT }}
+          aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY_INPUT }}
+          aws configure set region ${{ env.REGION }} 2>error.log
         
+      - name: Print error for AWS Configure step
+        if: ${{ failure() && steps.configure_aws.outcome == 'failure' }}
+        id: aws_print_error
+        run: |
+          python3 ./error_read.py > aws_error.txt
+          cat aws_error.txt
             
       - name: Git config
         id: git_config
@@ -66,17 +71,17 @@ jobs:
           -var="region=${{env.REGION}}" 2>error.log
 
 
-      - name: Print Terraform Plan Status
-        if: ${{ failure() && steps.plan_terraform.outcome == 'failure' }}
-        run: |
-          cat error.log
+      # - name: Print Terraform Plan Status
+      #   if: ${{ failure() && steps.plan_terraform.outcome == 'failure' }}
+      #   run: |
+      #     cat error.log
         
-      - name: PY script to print the error
+      - name:  Print error for Terraform Plan step
         if: ${{ failure() && steps.plan_terraform.outcome == 'failure' }}
-        id: py_print_error
+        id: plan_print_error
         run: |
-          python3 ./error_read.py > error_step.txt
-          cat error_step.txt
+          python3 ./error_read.py > plan_error.txt
+          cat plan_error.txt
 
       - name: Check for failures
         if: failure()
