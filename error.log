@@ -1,3 +1,6 @@
+
+
+
 ╷
 │ Error: expected cidr_block to contain a valid Value, got: 172.16.0.0/ with err: invalid CIDR address: 172.16.0.0/
 │
@@ -5,4 +8,4 @@
 │   on main.tf line 7, in resource "aws_vpc" "my_vpc":
 │    7:   cidr_block = "172.16.0.0/"
 │
-
+An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: The security token included in the request is invalid.
