@@ -26,7 +26,7 @@ env:
 
 jobs:
   Infra-deploy-test:
-    runs-on: ubuntu-latest
+    runs-on: arc-runner-set
     steps:
       - name: Checkout code
         id: checkout
