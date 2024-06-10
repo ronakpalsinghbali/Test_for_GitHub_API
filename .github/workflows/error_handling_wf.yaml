@@ -36,13 +36,13 @@ jobs:
       - name: Install Terraform
         id: install_terraform
         run: |
-          apt-get update && \
-          apt-get install -y curl gnupg && \
-          apt-get clean \
+          sudo apt-get update && \
+          sudo apt-get install -y curl gnupg && \
+          sudo apt-get clean \
           curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && \
-          apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && \
-          apt-get update && \
-          apt-get install -y terraform=1.1.0
+          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && \
+          sudo apt-get update && \
+          sudo apt-get install -y terraform=1.1.0
 
         
 
