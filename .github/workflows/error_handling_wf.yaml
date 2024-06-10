@@ -71,11 +71,6 @@ jobs:
           terraform plan -var-file="./dev.tfvars" \
           -var="region=${{env.REGION}}" 2>error.log
 
-
-      # - name: Print Terraform Plan Status
-      #   if: ${{ failure() && steps.plan_terraform.outcome == 'failure' }}
-      #   run: |
-      #     cat error.log
         
       - name:  Print error for Terraform Plan step
         if: ${{ failure() && steps.plan_terraform.outcome == 'failure' }}
@@ -114,3 +109,9 @@ jobs:
         if: failure()
         run: |
           echo "JOB failed: $STEP_STATUS"
+
+
+      - name: Send success notification
+        if: success()
+        run: |
+          echo "JOB successed"
