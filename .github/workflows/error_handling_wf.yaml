@@ -114,4 +114,4 @@ jobs:
       - name: Send success notification
         if: success()
         run: |
-          echo "JOB successed"
+          echo "JOB succeeded"
