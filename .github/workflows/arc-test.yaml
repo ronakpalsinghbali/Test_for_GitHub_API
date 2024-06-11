@@ -4,6 +4,6 @@ on:
 
 jobs:
   ARC_TEST:
-    runs-on: arc-runner-set
+    runs-on: arc-github-set
     steps:
     - run: echo "🎉 This job uses runner scale set runners!"
